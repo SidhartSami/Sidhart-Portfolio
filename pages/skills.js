@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import Image from 'next/image';
 
 const SectionHeading = ({ title, themeClasses }) => {
   return (
@@ -133,9 +134,10 @@ const LogoSkill = ({ name, imageSrc, isDarkMode, index = 0 }) => {
         <div className="flex flex-col items-center space-y-1.5">
           <div className="relative w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 transition-all duration-300 group-hover:scale-110">
             <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded-lg blur opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-            <img 
+            <Image
               src={imageSrc} 
               alt={name}
+
               className={`relative w-full h-full object-contain transition-all duration-300 rounded-lg ${
                 isHovered ? 'filter-none' : 'filter grayscale hover:grayscale-0'
               }`}

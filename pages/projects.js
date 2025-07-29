@@ -1,9 +1,12 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
+import { useTheme } from 'next-themes';
 
-const SectionHeading = ({ title, themeClasses }) => {
+const SectionHeading = ({ title }) => {
+  const { theme } = useTheme();
+  
   return (
     <div className="mb-6 sm:mb-8 md:mb-12 flex items-center space-x-4">
-      <h2 className={`text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold ${themeClasses.text}`}>
+      <h2 className={`text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold ${theme === 'dark' ? 'text-white' : 'text-black'}`}>
         {title}<span className="text-blue-500">.</span>
       </h2>
       <div className="flex-1 h-px bg-zinc-300 dark:bg-zinc-700 opacity-50"></div>
@@ -11,7 +14,9 @@ const SectionHeading = ({ title, themeClasses }) => {
   );
 };
 
-const Projects = ({ projectsRef, themeClasses }) => {
+const Projects = ({ projectsRef }) => {
+  const { theme } = useTheme();
+  
   const projects = [
     {
       id: 1,
@@ -93,8 +98,6 @@ const Projects = ({ projectsRef, themeClasses }) => {
   const [touchStart, setTouchStart] = useState(null);
   const [touchEnd, setTouchEnd] = useState(null);
   const [screenSize, setScreenSize] = useState('mobile');
-  
-  const isDarkMode = themeClasses.background === 'bg-black';
 
   // Enhanced screen size detection
   useEffect(() => {
@@ -187,17 +190,10 @@ const Projects = ({ projectsRef, themeClasses }) => {
     setTimeout(() => setIsTransitioning(false), 400);
   };
 
-  // Theme classes
-  const bgClass = isDarkMode ? 'bg-black' : 'bg-white';
-  const textClass = isDarkMode ? 'text-white' : 'text-black';
-  const secondaryTextClass = isDarkMode ? 'text-zinc-400' : 'text-zinc-600';
-  const cardBgClass = isDarkMode ? 'bg-zinc-900/80' : 'bg-white/90';
-  const borderClass = isDarkMode ? 'border-zinc-700/50' : 'border-zinc-200/50';
-
   return (
     <section 
       ref={projectsRef} 
-      className={`min-h-screen ${bgClass} py-6 sm:py-8 md:py-16 px-4 sm:px-6 lg:px-8 overflow-hidden relative transition-all duration-700 flex flex-col justify-center`} 
+      className={`min-h-screen ${theme === 'dark' ? 'bg-black' : 'bg-white'} py-6 sm:py-8 md:py-16 px-4 sm:px-6 lg:px-8 overflow-hidden relative transition-all duration-700 flex flex-col justify-center`} 
       data-section="projects"
     >
       {/* Enhanced Background Elements */}
@@ -209,7 +205,7 @@ const Projects = ({ projectsRef, themeClasses }) => {
       
       <div className="max-w-7xl mx-auto w-full relative z-10">
         {/* Header */}
-        <SectionHeading title="Projects" themeClasses={{ text: textClass, border: borderClass }} />
+        <SectionHeading title="Projects" />
 
         {/* Carousel View */}
         <div className="relative">
@@ -226,7 +222,7 @@ const Projects = ({ projectsRef, themeClasses }) => {
                 <button
                   onClick={prevProject}
                   disabled={isTransitioning}
-                  className={`absolute left-2 sm:left-4 z-30 p-3 sm:p-4 rounded-full ${cardBgClass} ${borderClass} border backdrop-blur-sm shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-110 disabled:opacity-50 disabled:cursor-not-allowed group`}
+                  className={`absolute left-2 sm:left-4 z-30 p-3 sm:p-4 rounded-full ${theme === 'dark' ? 'bg-zinc-900/80 border-zinc-700/50' : 'bg-white/90 border-zinc-200/50'} border backdrop-blur-sm shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-110 disabled:opacity-50 disabled:cursor-not-allowed group`}
                 >
                   <svg className="w-5 h-5 sm:w-6 sm:h-6 text-blue-500 group-hover:text-blue-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -235,7 +231,7 @@ const Projects = ({ projectsRef, themeClasses }) => {
                 <button
                   onClick={nextProject}
                   disabled={isTransitioning}
-                  className={`absolute right-2 sm:right-4 z-30 p-3 sm:p-4 rounded-full ${cardBgClass} ${borderClass} border backdrop-blur-sm shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-110 disabled:opacity-50 disabled:cursor-not-allowed group`}
+                  className={`absolute right-2 sm:right-4 z-30 p-3 sm:p-4 rounded-full ${theme === 'dark' ? 'bg-zinc-900/80 border-zinc-700/50' : 'bg-white/90 border-zinc-200/50'} border backdrop-blur-sm shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-110 disabled:opacity-50 disabled:cursor-not-allowed group`}
                 >
                   <svg className="w-5 h-5 sm:w-6 sm:h-6 text-blue-500 group-hover:text-blue-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -253,11 +249,7 @@ const Projects = ({ projectsRef, themeClasses }) => {
                     project={projects[currentIndex]} 
                     isCenter={true}
                     screenSize={screenSize}
-                    isDarkMode={isDarkMode}
-                    textClass={textClass}
-                    secondaryTextClass={secondaryTextClass}
-                    cardBgClass={cardBgClass}
-                    borderClass={borderClass}
+                    theme={theme}
                     hoveredCard={hoveredCard}
                     setHoveredCard={setHoveredCard}
                     setIsPaused={setIsPaused}
@@ -271,11 +263,7 @@ const Projects = ({ projectsRef, themeClasses }) => {
                       project={projects[(currentIndex - 1 + projects.length) % projects.length]} 
                       isCenter={false}
                       screenSize={screenSize}
-                      isDarkMode={isDarkMode}
-                      textClass={textClass}
-                      secondaryTextClass={secondaryTextClass}
-                      cardBgClass={cardBgClass}
-                      borderClass={borderClass}
+                      theme={theme}
                       onClick={() => goToProject((currentIndex - 1 + projects.length) % projects.length)}
                     />
                   </div>
@@ -284,11 +272,7 @@ const Projects = ({ projectsRef, themeClasses }) => {
                       project={projects[currentIndex]} 
                       isCenter={true}
                       screenSize={screenSize}
-                      isDarkMode={isDarkMode}
-                      textClass={textClass}
-                      secondaryTextClass={secondaryTextClass}
-                      cardBgClass={cardBgClass}
-                      borderClass={borderClass}
+                      theme={theme}
                       hoveredCard={hoveredCard}
                       setHoveredCard={setHoveredCard}
                       setIsPaused={setIsPaused}
@@ -299,11 +283,7 @@ const Projects = ({ projectsRef, themeClasses }) => {
                       project={projects[(currentIndex + 1) % projects.length]} 
                       isCenter={false}
                       screenSize={screenSize}
-                      isDarkMode={isDarkMode}
-                      textClass={textClass}
-                      secondaryTextClass={secondaryTextClass}
-                      cardBgClass={cardBgClass}
-                      borderClass={borderClass}
+                      theme={theme}
                       onClick={() => goToProject((currentIndex + 1) % projects.length)}
                     />
                   </div>
@@ -316,11 +296,7 @@ const Projects = ({ projectsRef, themeClasses }) => {
                       project={projects[(currentIndex - 1 + projects.length) % projects.length]} 
                       isCenter={false}
                       screenSize={screenSize}
-                      isDarkMode={isDarkMode}
-                      textClass={textClass}
-                      secondaryTextClass={secondaryTextClass}
-                      cardBgClass={cardBgClass}
-                      borderClass={borderClass}
+                      theme={theme}
                       onClick={() => goToProject((currentIndex - 1 + projects.length) % projects.length)}
                     />
                   </div>
@@ -329,11 +305,7 @@ const Projects = ({ projectsRef, themeClasses }) => {
                       project={projects[currentIndex]} 
                       isCenter={true}
                       screenSize={screenSize}
-                      isDarkMode={isDarkMode}
-                      textClass={textClass}
-                      secondaryTextClass={secondaryTextClass}
-                      cardBgClass={cardBgClass}
-                      borderClass={borderClass}
+                      theme={theme}
                       hoveredCard={hoveredCard}
                       setHoveredCard={setHoveredCard}
                       setIsPaused={setIsPaused}
@@ -344,11 +316,7 @@ const Projects = ({ projectsRef, themeClasses }) => {
                       project={projects[(currentIndex + 1) % projects.length]} 
                       isCenter={false}
                       screenSize={screenSize}
-                      isDarkMode={isDarkMode}
-                      textClass={textClass}
-                      secondaryTextClass={secondaryTextClass}
-                      cardBgClass={cardBgClass}
-                      borderClass={borderClass}
+                      theme={theme}
                       onClick={() => goToProject((currentIndex + 1) % projects.length)}
                     />
                   </div>
@@ -366,8 +334,8 @@ const Projects = ({ projectsRef, themeClasses }) => {
                 disabled={isTransitioning}
                 className={`relative overflow-hidden transition-all duration-500 ease-out disabled:cursor-not-allowed group
                   ${index === currentIndex
-                    ? 'w-10 h-3 sm:w-12 sm:h-3 bg-zinc-300 dark:bg-zinc-600 rounded-full'
-                    : 'w-3 h-3 bg-zinc-400 dark:bg-zinc-500 rounded-full hover:bg-blue-500 hover:scale-125 hover:shadow-lg hover:shadow-blue-500/50'
+                    ? `w-10 h-3 sm:w-12 sm:h-3 ${theme === 'dark' ? 'bg-zinc-600' : 'bg-zinc-300'} rounded-full`
+                    : `w-3 h-3 ${theme === 'dark' ? 'bg-zinc-500' : 'bg-zinc-400'} rounded-full hover:bg-blue-500 hover:scale-125 hover:shadow-lg hover:shadow-blue-500/50`
                   }`}
               >
                 {index === currentIndex && (
@@ -387,7 +355,7 @@ const Projects = ({ projectsRef, themeClasses }) => {
           {/* Mobile Swipe Indicator */}
           {screenSize === 'mobile' && (
             <div className="flex justify-center mt-4">
-              <div className="flex items-center gap-2 text-xs text-zinc-500 bg-zinc-100 dark:bg-zinc-800 px-3 py-2 rounded-full">
+              <div className={`flex items-center gap-2 text-xs text-zinc-500 ${theme === 'dark' ? 'bg-zinc-800' : 'bg-zinc-100'} px-3 py-2 rounded-full`}>
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16l-4-4m0 0l4-4m-4 4h18" />
                 </svg>
@@ -401,7 +369,7 @@ const Projects = ({ projectsRef, themeClasses }) => {
 
           {/* Status Indicator */}
           <div className="text-center mt-4">
-            <div className={`inline-flex items-center gap-3 ${secondaryTextClass} text-sm px-4 py-2 rounded-full ${isDarkMode ? 'bg-zinc-800/50' : 'bg-zinc-100/50'} backdrop-blur-sm`}>
+            <div className={`inline-flex items-center gap-3 ${theme === 'dark' ? 'text-zinc-400 bg-zinc-800/50' : 'text-zinc-600 bg-zinc-100/50'} text-sm px-4 py-2 rounded-full backdrop-blur-sm`}>
               <div className="flex items-center gap-2">
                 <div className={`w-2 h-2 rounded-full ${isPaused ? 'bg-orange-500' : 'bg-green-500'} animate-pulse`}></div>
                 <span className="font-medium">
@@ -425,11 +393,7 @@ const ProjectCard = ({
   project, 
   isCenter, 
   screenSize, 
-  isDarkMode, 
-  textClass, 
-  secondaryTextClass, 
-  cardBgClass, 
-  borderClass,
+  theme,
   hoveredCard,
   setHoveredCard,
   setIsPaused,
@@ -474,7 +438,7 @@ const ProjectCard = ({
 
   return (
     <div
-      className={`group relative ${cardBgClass} ${borderClass} border backdrop-blur-sm rounded-2xl overflow-hidden 
+      className={`group relative ${theme === 'dark' ? 'bg-zinc-900/80 border-zinc-700/50' : 'bg-white/90 border-zinc-200/50'} border backdrop-blur-sm rounded-2xl overflow-hidden 
         shadow-xl transition-all duration-500 transform-gpu cursor-pointer
         ${getCardSize()}
         ${hoveredCard === project.id && isCenter ? 'shadow-2xl scale-105 border-blue-500/50' : ''}
@@ -491,7 +455,9 @@ const ProjectCard = ({
       }}
       style={{
         background: hoveredCard === project.id && isCenter ? 
-          `linear-gradient(135deg, ${isDarkMode ? 'rgba(24, 24, 27, 0.95)' : 'rgba(255, 255, 255, 0.95)'}, ${isDarkMode ? 'rgba(39, 39, 42, 0.95)' : 'rgba(248, 250, 252, 0.95)'})` : 
+          theme === 'dark' ? 
+            'linear-gradient(135deg, rgba(24, 24, 27, 0.95), rgba(39, 39, 42, 0.95))' : 
+            'linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(248, 250, 252, 0.95))' : 
           undefined
       }}
     >
@@ -528,7 +494,7 @@ const ProjectCard = ({
           
           {/* Title */}
           <div className="relative">
-            <h3 className={`font-bold ${textClass} leading-tight transition-all duration-300 group-hover:text-blue-500 ${textSizes.title}`}>
+            <h3 className={`font-bold ${theme === 'dark' ? 'text-white' : 'text-black'} leading-tight transition-all duration-300 group-hover:text-blue-500 ${textSizes.title}`}>
               {project.title}
             </h3>
             <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-500 transition-all duration-300 group-hover:w-full"></div>
@@ -537,7 +503,7 @@ const ProjectCard = ({
         
         {/* Description */}
         <div className="flex-1 flex flex-col justify-between mt-4">
-          <p className={`${secondaryTextClass} leading-relaxed transition-all duration-300 group-hover:text-current ${textSizes.description} mb-4`}>
+          <p className={`${theme === 'dark' ? 'text-zinc-400' : 'text-zinc-600'} leading-relaxed transition-all duration-300 group-hover:text-current ${textSizes.description} mb-4`}>
             {screenSize === 'mobile' ? 
               project.description.substring(0, 150) + '...' : 
               isCenter ? 
@@ -553,8 +519,8 @@ const ProjectCard = ({
                 <span
                   key={i}
                   className={`px-2.5 py-1 ${textSizes.tech} font-medium rounded-full transition-all duration-300 hover:scale-105
-                    ${isDarkMode ? 'bg-zinc-800 text-zinc-300 border-zinc-700' : 'bg-zinc-100 text-zinc-700 border-zinc-200'} 
-                    border hover:border-blue-300 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20`}
+                    ${theme === 'dark' ? 'bg-zinc-800 text-zinc-300 border-zinc-700' : 'bg-zinc-100 text-zinc-700 border-zinc-200'} 
+                    border hover:border-blue-300 hover:text-blue-600 ${theme === 'dark' ? 'hover:bg-blue-900/20' : 'hover:bg-blue-50'}`}
                 >
                   {tech}
                 </span>
@@ -574,7 +540,7 @@ const ProjectCard = ({
                     </span>
                   </button>
                   <button className={`flex-1 px-4 ${textSizes.button} rounded-xl font-semibold shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-105 active:scale-95
-                    ${isDarkMode ? 'bg-zinc-800 text-zinc-300 border-zinc-700 hover:bg-zinc-700' : 'bg-white text-zinc-700 border-zinc-300 hover:bg-zinc-50'} border-2`}>
+                    ${theme === 'dark' ? 'bg-zinc-800 text-zinc-300 border-zinc-700 hover:bg-zinc-700' : 'bg-white text-zinc-700 border-zinc-300 hover:bg-zinc-50'} border-2`}>
                     <span className="flex items-center justify-center gap-2">
                       <svg className="w-4 h-4 group-hover:rotate-12 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />

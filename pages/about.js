@@ -1,20 +1,41 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { useTheme } from 'next-themes';
 
-const SectionHeading = ({ title, themeClasses }) => {
+const SectionHeading = ({ title }) => {
+  const { resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null;
+
   return (
     <div className="mb-6 sm:mb-8 lg:mb-12 flex items-center space-x-3 sm:space-x-4">
-      <h2 className={`text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold ${themeClasses.text}`}>
+      <h2 className={`text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold ${resolvedTheme === 'dark' ? 'text-white' : 'text-black'}`}>
         {title}<span className="text-blue-500">.</span>
       </h2>
       
       {/* Horizontal line after the title */}
-      <div className="flex-1 h-px bg-zinc-300 dark:bg-zinc-700 opacity-50"></div>
+      <div className={`flex-1 h-px ${resolvedTheme === 'dark' ? 'border-gray-600/50' : 'border-gray-300/50'} opacity-50`}></div>
     </div>
   );
 };
 
 // AboutSection component with skill proficiency levels
-const AboutSection = ({ aboutRef, themeClasses }) => {
+const AboutSection = ({ aboutRef }) => {
+  const { resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  // Ensure component is mounted to avoid hydration mismatch
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Use resolvedTheme to ensure correct theme detection
+  if (!mounted) return null;
+
   const expertSkills = {
     languages: ['C/C++', 'HTML', 'CSS', 'MySQL'],
     libraries: ['Pandas', 'NumPy', 'Scikit-learn', 'Matplotlib', 'Seaborn', 'Tableau', 'MATLAB'],
@@ -23,7 +44,7 @@ const AboutSection = ({ aboutRef, themeClasses }) => {
 
   const moderateSkills = {
     languages: ['Python', 'JavaScript'],
-    libraries: ['SFML','Streamlit'],
+    libraries: ['SFML', 'Streamlit'],
     concepts: ['Data Structures & Algorithms']
   };
 
@@ -39,14 +60,18 @@ const AboutSection = ({ aboutRef, themeClasses }) => {
         <div className={`w-5 h-5 lg:w-6 lg:h-6 ${levelColor} rounded mr-2 lg:mr-3 flex items-center justify-center`}>
           {levelIcon}
         </div>
-        <h3 className={`text-lg sm:text-xl font-semibold ${themeClasses.text}`}>{title}</h3>
+        <h3 className={`text-lg sm:text-xl font-semibold ${resolvedTheme === 'dark' ? 'text-white' : 'text-black'}`}>{title}</h3>
       </div>
       
       <div className="flex flex-wrap gap-1.5 sm:gap-2">
         {languages?.map((skill, index) => (
           <span
             key={`lang-${index}`}
-            className={`${themeClasses.secondaryBackground} px-2 py-1 sm:px-3 ${themeClasses.secondaryText} rounded-full text-xs sm:text-sm ${themeClasses.secondaryBackgroundHover} transition-colors`}
+            className={`${
+              resolvedTheme === 'dark' 
+                ? 'bg-gray-800/70 border-gray-700/50 text-gray-300 hover:bg-gray-700/70' 
+                : 'bg-gray-100/70 border-gray-300/50 text-gray-800 hover:bg-gray-200/70'
+            } backdrop-blur-lg border px-2 py-1 sm:px-3 rounded-full text-xs sm:text-sm transition-colors`}
           >
             {skill}
           </span>
@@ -54,7 +79,11 @@ const AboutSection = ({ aboutRef, themeClasses }) => {
         {libraries?.map((skill, index) => (
           <span
             key={`lib-${index}`}
-            className={`${themeClasses.secondaryBackground} px-2 py-1 sm:px-3 ${themeClasses.secondaryText} rounded-full text-xs sm:text-sm ${themeClasses.secondaryBackgroundHover} transition-colors`}
+            className={`${
+              resolvedTheme === 'dark' 
+                ? 'bg-gray-800/70 border-gray-700/50 text-gray-300 hover:bg-gray-700/70' 
+                : 'bg-gray-100/70 border-gray-300/50 text-gray-800 hover:bg-gray-200/70'
+            } backdrop-blur-lg border px-2 py-1 sm:px-3 rounded-full text-xs sm:text-sm transition-colors`}
           >
             {skill}
           </span>
@@ -62,7 +91,11 @@ const AboutSection = ({ aboutRef, themeClasses }) => {
         {concepts?.map((skill, index) => (
           <span
             key={`concept-${index}`}
-            className={`${themeClasses.secondaryBackground} px-2 py-1 sm:px-3 ${themeClasses.secondaryText} rounded-full text-xs sm:text-sm ${themeClasses.secondaryBackgroundHover} transition-colors`}
+            className={`${
+              resolvedTheme === 'dark' 
+                ? 'bg-gray-800/70 border-gray-700/50 text-gray-300 hover:bg-gray-700/70' 
+                : 'bg-gray-100/70 border-gray-300/50 text-gray-800 hover:bg-gray-200/70'
+            } backdrop-blur-lg border px-2 py-1 sm:px-3 rounded-full text-xs sm:text-sm transition-colors`}
           >
             {skill}
           </span>
@@ -71,36 +104,28 @@ const AboutSection = ({ aboutRef, themeClasses }) => {
     </div>
   );
 
-  // Mock theme classes for demonstration
-  const mockThemeClasses = {
-    background: 'bg-white dark:bg-gray-900',
-    text: 'text-gray-900 dark:text-white',
-    secondaryText: 'text-gray-600 dark:text-gray-300',
-    secondaryBackground: 'bg-gray-100 dark:bg-gray-800',
-    secondaryBackgroundHover: 'hover:bg-gray-200 dark:hover:bg-gray-700'
-  };
-
-  const displayThemeClasses = themeClasses || mockThemeClasses;
-
   return (
-    <section ref={aboutRef} className={`${displayThemeClasses.background} pt-20 sm:pt-24 lg:pt-16 pb-8 sm:pb-12 lg:pb-16 px-4 sm:px-6 lg:px-8`} data-section="about">
+    <section
+      ref={aboutRef}
+      className={`pt-20 sm:pt-24 lg:pt-16 pb-8 sm:pb-12 lg:pb-16 px-4 sm:px-6 lg:px-8 ${resolvedTheme === 'dark' ? 'bg-black' : 'bg-white'}`}
+      data-section="about"
+    >
       <div className="max-w-4xl mx-auto">
-        <SectionHeading title="About" themeClasses={displayThemeClasses} />
+        <SectionHeading title="About" />
         
         {/* Mobile-first layout: Stack content, then side-by-side on larger screens */}
         <div className="space-y-8 lg:space-y-0 lg:grid lg:grid-cols-3 lg:gap-8 lg:items-start">
-          
           {/* Main content - full width on mobile, 2/3 on desktop */}
           <div className="lg:col-span-2 lg:pr-4">
             <div className="space-y-4 sm:space-y-6">
-              <p className={`${displayThemeClasses.secondaryText} text-sm sm:text-base lg:text-lg leading-relaxed`}>
-                Hey! I'm Sidhart Sami, a Computer Science student at FAST NUCES, set to graduate in 2027. I'm passionate about Data Science and transforming complex datasets into actionable insights that solve real-world problems.
+              <p className={`${resolvedTheme === 'dark' ? 'text-gray-300' : 'text-gray-800'} text-sm sm:text-base lg:text-lg leading-relaxed`}>
+                Hey! I&apos;m Sidhart Sami, a Computer Science student at FAST NUCES, set to graduate in 2027. I&apos;m passionate about Data Science and transforming complex datasets into actionable insights that solve real-world problems.
               </p>
-              <p className={`${displayThemeClasses.secondaryText} text-sm sm:text-base lg:text-lg leading-relaxed`}>
-                Certified in Data Science by IBM and Google's Advanced Data Analytics, I've grown from struggling with code to confidently helping friends debug complex issues. My love for gaming led me to build several games as semester projects, shaping my technical and creative skills.
+              <p className={`${resolvedTheme === 'dark' ? 'text-gray-300' : 'text-gray-800'} text-sm sm:text-base lg:text-lg leading-relaxed`}>
+                Certified in Data Science by IBM and Google&apos;s Advanced Data Analytics, I&apos;ve grown from struggling with code to confidently helping friends debug complex issues. My love for gaming led me to build several games as semester projects, shaping my technical and creative skills.
               </p>
-              <p className={`${displayThemeClasses.secondaryText} text-sm sm:text-base lg:text-lg leading-relaxed`}>
-                Beyond coding, I'm a chess enthusiast and sports analytics buff who geeks out over stats and team strategies. My goal is to pursue a Master's in Data Science and join a FAANG company, driving innovation through data.
+              <p className={`${resolvedTheme === 'dark' ? 'text-gray-300' : 'text-gray-800'} text-sm sm:text-base lg:text-lg leading-relaxed`}>
+                Beyond coding, I&apos;m a chess enthusiast and sports analytics buff who geeks out over stats and team strategies. My goal is to pursue a Master&apos;s in Data Science and join a FAANG company, driving innovation through data.
               </p>
             </div>
           </div>
@@ -108,8 +133,8 @@ const AboutSection = ({ aboutRef, themeClasses }) => {
           {/* Skills section - full width on mobile, 1/3 on desktop */}
           <div className="lg:col-span-1 lg:sticky lg:top-8">
             {/* Add a subtle separator on mobile */}
-            <div className="lg:hidden border-t border-zinc-200 dark:border-zinc-700 pt-6 mb-2">
-              <h3 className={`text-lg sm:text-xl font-semibold ${displayThemeClasses.text} mb-4`}>Technical Skills</h3>
+            <div className={`lg:hidden border-t ${resolvedTheme === 'dark' ? 'border-gray-600/50' : 'border-gray-300/50'} pt-6 mb-2`}>
+              <h3 className={`text-lg sm:text-xl font-semibold ${resolvedTheme === 'dark' ? 'text-white' : 'text-black'} mb-4`}>Technical Skills</h3>
             </div>
             
             {/* Expert Skills */}

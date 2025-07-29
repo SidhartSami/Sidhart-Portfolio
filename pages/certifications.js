@@ -1,19 +1,34 @@
 import { useState, useEffect, useRef } from 'react';
+import { useTheme } from 'next-themes';
 
-const SectionHeading = ({ title, themeClasses }) => {
+const SectionHeading = ({ title }) => {
+  const { resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   return (
     <div className="mb-8 sm:mb-12 flex items-center space-x-4">
-      <h2 className={`text-3xl sm:text-4xl lg:text-5xl font-bold ${themeClasses.text}`}>
+      <h2 className={`text-3xl sm:text-4xl lg:text-5xl font-bold ${mounted && resolvedTheme === 'dark' ? 'text-white' : 'text-black'}`}>
         {title}<span className="text-blue-500">.</span>
       </h2>
       
       {/* Horizontal line after the title */}
-      <div className="flex-1 h-px bg-zinc-300 dark:bg-zinc-700 opacity-50"></div>
+      <div className={`flex-1 h-px ${mounted && resolvedTheme === 'dark' ? 'bg-zinc-700' : 'bg-zinc-300'} opacity-50`}></div>
     </div>
   );
 };
 
-const CertificationsSection = ({ certificationsRef, themeClasses }) => {
+const CertificationsSection = ({ certificationsRef }) => {
+  const { resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const certificateSections = {
     'data-analytics': {
       title: 'Google Advance Data Analytics',
@@ -59,7 +74,7 @@ const CertificationsSection = ({ certificationsRef, themeClasses }) => {
     },
   };
 
-  const [activeSection, setActiveSection] = useState(Object.keys(certificateSections)[0]);
+  const [activeSection, setActiveSection] = useState('data-analytics');
   const [expandedCard, setExpandedCard] = useState(null);
 
   const currentSection = certificateSections[activeSection];
@@ -106,10 +121,31 @@ const CertificationsSection = ({ certificationsRef, themeClasses }) => {
     return currentSection.courses.slice(startIndex, endIndex);
   };
 
+  // Theme-responsive classes
+  const getCardBackground = () => {
+    return mounted && resolvedTheme === 'dark' 
+      ? 'bg-gray-800/70 border-gray-700/50' 
+      : 'bg-white/70 border-gray-300/50';
+  };
+
+  const getCardBackgroundHover = () => {
+    return mounted && resolvedTheme === 'dark' 
+      ? 'hover:bg-gray-700/70' 
+      : 'hover:bg-gray-200/70';
+  };
+
+  const getTextClass = () => {
+    return mounted && resolvedTheme === 'dark' ? 'text-white' : 'text-black';
+  };
+
+  const getSecondaryTextClass = () => {
+    return mounted && resolvedTheme === 'dark' ? 'text-gray-300' : 'text-gray-600';
+  };
+
   return (
-    <section ref={certificationsRef} className={`${themeClasses.background} py-12 px-4 sm:px-8`} data-section="certifications">
+    <section ref={certificationsRef} className={`${mounted && resolvedTheme === 'dark' ? 'bg-black' : 'bg-white'} py-12 px-4 sm:px-8 transition-colors duration-300`} data-section="certifications">
       <div className="max-w-7xl mx-auto">
-        <SectionHeading title="Certifications" themeClasses={themeClasses} />
+        <SectionHeading title="Certifications" />
         
         {/* Unified Section Navigation - Mobile layout for all sizes */}
         <div className="mb-8">
@@ -121,10 +157,10 @@ const CertificationsSection = ({ certificationsRef, themeClasses }) => {
                 <button
                   key={sectionKey}
                   onClick={() => setActiveSection(sectionKey)}
-                  className={`flex items-center justify-center space-x-2 sm:space-x-3 px-3 sm:px-4 py-4 rounded-xl transition-all duration-300 ${
+                  className={`flex items-center justify-center space-x-2 sm:space-x-3 px-3 sm:px-4 py-4 rounded-xl transition-all duration-300 border backdrop-blur-lg ${
                     activeSection === sectionKey
                       ? `bg-gradient-to-r ${section.color} text-white shadow-lg transform scale-105`
-                      : `${themeClasses.cardBackground} ${themeClasses.cardBackgroundHover} ${themeClasses.text}`
+                      : `${getCardBackground()} ${getCardBackgroundHover()} ${getTextClass()}`
                   }`}
                 >
                   <span className="text-base sm:text-xl">{section.icon}</span>
@@ -142,10 +178,10 @@ const CertificationsSection = ({ certificationsRef, themeClasses }) => {
                 <button
                   key={sectionKey}
                   onClick={() => setActiveSection(sectionKey)}
-                  className={`flex items-center space-x-2 px-4 py-2 rounded-full transition-all duration-300 ${
+                  className={`flex items-center space-x-2 px-4 py-2 rounded-full transition-all duration-300 border backdrop-blur-lg ${
                     activeSection === sectionKey
                       ? `bg-gradient-to-r ${section.color} text-white shadow-lg transform scale-105`
-                      : `${themeClasses.cardBackground} ${themeClasses.cardBackgroundHover} ${themeClasses.text}`
+                      : `${getCardBackground()} ${getCardBackgroundHover()} ${getTextClass()}`
                   }`}
                 >
                   <span className="text-lg">{section.icon}</span>
@@ -160,7 +196,7 @@ const CertificationsSection = ({ certificationsRef, themeClasses }) => {
         <div className="space-y-6">
           {/* Professional Certificate - Featured at top for all sizes */}
           <div>
-            <div className={`${themeClasses.cardBackground} ${themeClasses.cardBackgroundHover} p-6 rounded-2xl transition-all duration-300 hover:shadow-2xl cursor-pointer group relative overflow-hidden`}>
+            <div className={`${getCardBackground()} ${getCardBackgroundHover()} border backdrop-blur-lg p-6 rounded-2xl transition-all duration-300 hover:shadow-2xl cursor-pointer group relative overflow-hidden`}>
               {/* Animated Background */}
               <div className={`absolute inset-0 bg-gradient-to-br ${currentSection.color} opacity-10 group-hover:opacity-20 transition-opacity duration-300`}></div>
               
@@ -180,13 +216,13 @@ const CertificationsSection = ({ certificationsRef, themeClasses }) => {
                   </div>
                 </div>
                 
-                <h3 className={`${themeClasses.text} text-xl font-bold mb-2 group-hover:text-blue-400 transition-colors`}>
+                <h3 className={`${getTextClass()} text-xl font-bold mb-2 group-hover:text-blue-400 transition-colors`}>
                   {currentSection.professional.title}
                 </h3>
-                <p className={`${themeClasses.secondaryText} text-sm mb-3 font-medium`}>
+                <p className={`${getSecondaryTextClass()} text-sm mb-3 font-medium`}>
                   {currentSection.professional.issuer}
                 </p>
-                <p className={`${themeClasses.secondaryText} text-sm mb-4 leading-relaxed`}>
+                <p className={`${getSecondaryTextClass()} text-sm mb-4 leading-relaxed`}>
                   {currentSection.professional.description}
                 </p>
                 
@@ -205,7 +241,7 @@ const CertificationsSection = ({ certificationsRef, themeClasses }) => {
             {currentSection.courses.map((cert, index) => (
               <div 
                 key={cert.id}
-                className={`${themeClasses.cardBackground} ${themeClasses.cardBackgroundHover} p-4 rounded-xl transition-all duration-300 hover:shadow-lg cursor-pointer group relative overflow-hidden ${
+                className={`${getCardBackground()} ${getCardBackgroundHover()} border backdrop-blur-lg p-4 rounded-xl transition-all duration-300 hover:shadow-lg cursor-pointer group relative overflow-hidden ${
                   expandedCard === cert.id ? 'col-span-2' : ''
                 }`}
                 onClick={() => setExpandedCard(expandedCard === cert.id ? null : cert.id)}
@@ -226,16 +262,16 @@ const CertificationsSection = ({ certificationsRef, themeClasses }) => {
                     </div>
                   </div>
                   
-                  <h3 className={`${themeClasses.text} text-sm font-semibold mb-1 group-hover:text-blue-400 transition-colors leading-tight`}>
+                  <h3 className={`${getTextClass()} text-sm font-semibold mb-1 group-hover:text-blue-400 transition-colors leading-tight`}>
                     {cert.title}
                   </h3>
-                  <p className={`${themeClasses.secondaryText} text-xs mb-3`}>
+                  <p className={`${getSecondaryTextClass()} text-xs mb-3`}>
                     {cert.issuer}
                   </p>
                   
                   {expandedCard === cert.id && (
                     <div className="mt-3 pt-3 border-t border-gray-500/20">
-                      <p className={`${themeClasses.secondaryText} text-xs mb-3`}>
+                      <p className={`${getSecondaryTextClass()} text-xs mb-3`}>
                         Comprehensive course covering essential concepts and practical applications in {cert.title.toLowerCase()}.
                       </p>
                     </div>
@@ -259,7 +295,7 @@ const CertificationsSection = ({ certificationsRef, themeClasses }) => {
                 {getCoursesForColumn(columnIndex).map((cert) => (
                   <div 
                     key={cert.id}
-                    className={`${themeClasses.cardBackground} ${themeClasses.cardBackgroundHover} p-3 rounded-lg transition-all duration-300 hover:shadow-lg cursor-pointer group flex-1 relative overflow-hidden`}
+                    className={`${getCardBackground()} ${getCardBackgroundHover()} border backdrop-blur-lg p-3 rounded-lg transition-all duration-300 hover:shadow-lg cursor-pointer group flex-1 relative overflow-hidden`}
                   >
                     {/* Gradient background with section colors */}
                     <div className={`absolute inset-0 bg-gradient-to-br ${currentSection.color} opacity-5 group-hover:opacity-10 transition-opacity duration-300`}></div>
@@ -276,10 +312,10 @@ const CertificationsSection = ({ certificationsRef, themeClasses }) => {
                           </div>
                         </div>
                       </div>
-                      <h3 className={`${themeClasses.text} text-sm font-semibold mb-1 group-hover:text-blue-400 transition-colors`}>
+                      <h3 className={`${getTextClass()} text-sm font-semibold mb-1 group-hover:text-blue-400 transition-colors`}>
                         {cert.title}
                       </h3>
-                      <p className={`${themeClasses.secondaryText} text-xs mb-2`}>
+                      <p className={`${getSecondaryTextClass()} text-xs mb-2`}>
                         {cert.issuer}
                       </p>
                       <div className="flex items-center justify-between">
@@ -310,7 +346,7 @@ const CertificationsSection = ({ certificationsRef, themeClasses }) => {
               />
             ))}
           </div>
-          <p className={`${themeClasses.secondaryText} text-sm`}>
+          <p className={`${getSecondaryTextClass()} text-sm`}>
             {Object.keys(certificateSections).indexOf(activeSection) + 1} of {sectionTabs.length} sections • 
             <span className="text-blue-500 font-medium ml-1">
               {currentSection.courses.length + 1} certificates

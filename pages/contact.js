@@ -1,11 +1,14 @@
 import { useState } from 'react';
+import { useTheme } from 'next-themes';
 import emailjs from '@emailjs/browser';
 
 // SectionHeading component
-const SectionHeading = ({ title, themeClasses }) => {
+const SectionHeading = ({ title }) => {
+  const { theme } = useTheme();
+  
   return (
     <div className="mb-6 sm:mb-8 lg:mb-10 flex items-center space-x-4">
-      <h2 className={`text-2xl sm:text-3xl lg:text-4xl font-bold ${themeClasses.text}`}>
+      <h2 className={`text-2xl sm:text-3xl lg:text-4xl font-bold ${theme === 'dark' ? 'text-white' : 'text-black'}`}>
         {title}<span className="text-blue-500">.</span>
       </h2>
       
@@ -15,7 +18,9 @@ const SectionHeading = ({ title, themeClasses }) => {
   );
 };
 
-const Contact = ({ contactRef, themeClasses }) => {
+const Contact = ({ contactRef }) => {
+  const { theme } = useTheme();
+  
   // State management for form data
   const [formData, setFormData] = useState({
     name: '',
@@ -32,7 +37,7 @@ const Contact = ({ contactRef, themeClasses }) => {
   const EMAILJS_PUBLIC_KEY = '_zPSEModKbOHFLSDH'; // e.g., 'user_1234567890'
 
   // Theme detection
-  const isDarkMode = themeClasses.background === 'bg-black';
+  const isDarkMode = theme === 'dark';
 
   // Form handlers
   const handleInputChange = (e) => {
@@ -107,7 +112,7 @@ const Contact = ({ contactRef, themeClasses }) => {
       {/* Main content container - More compact */}
       <div className="max-w-6xl mx-auto w-full relative z-10">
         {/* Section Heading Component */}
-        <SectionHeading title="Let's Connect" themeClasses={themeClasses} />
+        <SectionHeading title="Let's Connect" />
         
         {/* Responsive layout - More compact spacing */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-10 items-start lg:items-center">
@@ -117,7 +122,7 @@ const Contact = ({ contactRef, themeClasses }) => {
             <div>
               <h3 className={`text-xl sm:text-2xl lg:text-3xl font-bold ${textClass} mb-3 sm:mb-4`}>Get In Touch</h3>
               <p className={`${secondaryTextClass} text-sm sm:text-base lg:text-lg leading-relaxed`}>
-                I'd love to hear about opportunities at your company, discuss how I can contribute to your team, 
+                I&apos;d love to hear about opportunities at your company, discuss how I can contribute to your team, 
                 or give suggestions on areas I should focus on to improve my skills.
               </p>
             </div>
@@ -145,7 +150,7 @@ const Contact = ({ contactRef, themeClasses }) => {
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                         </svg>
                       </div>
-                      <p className="text-xs sm:text-sm font-medium text-green-600 dark:text-green-400">Message sent successfully! I'll get back to you soon.</p>
+                      <p className="text-xs sm:text-sm font-medium text-green-600 dark:text-green-400">Message sent successfully! I&apos;ll get back to you soon.</p>
                     </div>
                   </div>
                 )}
