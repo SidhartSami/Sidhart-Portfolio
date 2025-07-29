@@ -1,0 +1,1112 @@
+import { Inter } from 'next/font/google';
+import Head from 'next/head';
+import { useState, useEffect, useRef } from 'react';
+import Link from 'next/link';
+import { motion } from 'framer-motion';
+import Image from 'next/image';
+import { useRouter } from 'next/router';
+
+const inter = Inter({ subsets: ['latin'], weight: ['400', '500', '700'] });
+const HomeSection = ({ landingRef, themeClasses }) => {
+  const [currentRole, setCurrentRole] = useState(0);
+  const roles = ["Data Science Enthusiast", "Full-Stack Developer", "Game Developer"];
+
+  // Role rotation effect - increased timing to 5 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentRole((prev) => (prev + 1) % roles.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
+  // Role-specific icons using SVG files from public folder
+  const roleIcons = {
+    0: [ // Data Science
+      { 
+        name: 'Python', 
+        iconPath: '/python.svg',
+        size: 'w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12'
+      },
+      { 
+        name: 'TensorFlow', 
+        iconPath: '/tensorflow.svg',
+        size: 'w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12'
+      },
+      { 
+        name: 'Scikit-Learn', 
+        iconPath: '/scikitlearn.svg',
+        size: 'w-10 h-10 sm:w-12 sm:h-12 md:w-15 md:h-15'
+      },
+    ],
+    1: [ // Full-Stack Development
+      { 
+        name: 'React', 
+        iconPath: '/react.svg',
+        size: 'w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14'
+      },
+      { 
+        name: 'JavaScript', 
+        iconPath: '/javascript.svg',
+        size: 'w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12'
+      },
+      { 
+        name: 'Next.js', 
+        iconPath: '/nextjs.svg',
+        size: 'w-9 h-9 sm:w-11 sm:h-11 md:w-13 md:h-13'
+      },
+      { 
+        name: 'HTML', 
+        iconPath: '/html.svg',
+        size: 'w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12'
+      }
+    ],
+    2: [ // Game Development
+      { 
+        name: 'C++', 
+        iconPath: '/cplusplus.svg',
+        size: 'w-10 h-10 sm:w-12 sm:h-12 md:w-15 md:h-15'
+      },
+      { 
+        name: 'Unity', 
+        iconPath: '/unity.svg',
+        size: 'w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14'
+      },
+      { 
+        name: 'SFML', 
+        iconPath: '/sfml.svg',
+        size: 'w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12'
+      },
+    ]
+  };
+
+  return (
+    <>
+      <section
+        ref={landingRef}
+        className={`${themeClasses.background} min-h-screen flex items-center justify-center px-4 sm:px-6 md:px-8 relative overflow-hidden transition-colors duration-300`}
+        data-section="landing"
+      >
+        {/* Professional Background Elements */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          {/* Subtle gradient overlay */}
+          <div className={`absolute inset-0 ${themeClasses.background === 'bg-black' 
+            ? 'bg-gradient-to-br from-blue-950/30 via-transparent to-blue-900/20' 
+            : 'bg-gradient-to-br from-blue-50/50 via-transparent to-blue-100/30'}`}>
+          </div>
+          
+          {/* Dynamic Role-Specific Icons Background */}
+          <motion.div
+            key={`role-icons-${currentRole}`}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1, ease: "easeInOut" }}
+            className="absolute inset-0"
+          >
+            {roleIcons[currentRole].map((icon, index) => {
+              // Updated mobile positions to avoid overlap
+              const mobilePositions = [
+                { top: '15%', left: '8%', delay: 0 },
+                { top: '20%', right: '10%', delay: 0.4 },
+                { top: '35%', left: '5%', delay: 0.8 },
+                { top: '38%', right: '8%', delay: 1.2 },
+              ];
+              
+              const tabletPositions = [
+                { top: '12%', left: '6%', delay: 0 },
+                { top: '18%', right: '10%', delay: 0.2 },
+                { top: '38%', left: '4%', delay: 0.4 },
+                { top: '35%', right: '15%', delay: 0.6 },
+                { top: '60%', left: '12%', delay: 0.8 },
+                { top: '65%', right: '8%', delay: 1.0 },
+              ];
+              
+              const desktopPositions = [
+                { top: '10%', left: '8%', delay: 0 },
+                { top: '15%', right: '12%', delay: 0.2 },
+                { top: '35%', left: '5%', delay: 0.4 },
+                { top: '30%', right: '20%', delay: 0.6 },
+                { top: '55%', left: '15%', delay: 0.8 },
+                { top: '70%', right: '8%', delay: 1.0 },
+                { top: '60%', right: '5%', delay: 1.2 },
+                { top: '80%', left: '25%', delay: 1.4 },
+                { top: '25%', left: '50%', delay: 1.6 },
+                { top: '75%', right: '30%', delay: 1.8 }
+              ];
+              
+              // Use different position arrays based on screen size and available icons
+              let position;
+              if (index < mobilePositions.length) {
+                position = mobilePositions[index];
+              } else if (index < tabletPositions.length) {
+                position = tabletPositions[index];
+              } else {
+                position = desktopPositions[index % desktopPositions.length];
+              }
+              
+              return (
+                <motion.div
+                  key={`${icon.name}-${currentRole}-${index}`}
+                  initial={{ opacity: 0, scale: 0.3, rotate: -180 }}
+                  animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                  transition={{ 
+                    duration: 1.2, 
+                    delay: position.delay,
+                    ease: "easeOut"
+                  }}
+                  className={`absolute ${icon.size}`}
+                  style={position}
+                >
+                  <div className="relative group hover:scale-110 transition-transform duration-300">
+                    <div className="relative">
+                      <div 
+                        className="w-full h-full relative icon-container"
+                        style={{
+                          filter: `drop-shadow(0 0 6px ${themeClasses.background === 'bg-black' ? 'rgba(59, 130, 246, 0.4)' : 'rgba(37, 99, 235, 0.3)'})`
+                        }}
+                      >
+                        <img
+                          src={icon.iconPath}
+                          alt={icon.name}
+                          className="w-full h-full object-contain icon-image role-icon"
+                          onError={(e) => {
+                            console.warn(`Failed to load icon: ${icon.iconPath}`);
+                            // Show fallback icon
+                            e.target.style.display = 'none';
+                            e.target.nextElementSibling.style.display = 'flex';
+                          }}
+                          onLoad={(e) => {
+                            console.log(`Successfully loaded: ${icon.iconPath}`);
+                          }}
+                        />
+                        {/* Fallback icon */}
+                        <div 
+                          className={`w-full h-full rounded-lg border-2 border-dashed ${themeClasses.border} items-center justify-center text-xs font-medium ${themeClasses.text} hidden`}
+                          style={{ display: 'none' }}
+                        >
+                          {icon.name.charAt(0)}
+                        </div>
+                      </div>
+                    </div>
+                    
+                    {/* Icon name tooltip */}
+                    <div className={`absolute -bottom-8 left-1/2 transform -translate-x-1/2 px-2 py-1 rounded text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${themeClasses.background === 'bg-black' ? 'bg-gray-800 text-gray-200' : 'bg-gray-200 text-gray-800'} whitespace-nowrap z-10`}>
+                      {icon.name}
+                    </div>
+                  </div>
+                </motion.div>
+              );
+            })}
+          </motion.div>
+          
+          {/* Floating Code Symbols - Responsive sizes with theme-appropriate colors */}
+          <div className="absolute inset-0 hidden md:block">
+            <div 
+              className={`absolute top-20 left-1/4 text-4xl md:text-5xl lg:text-6xl font-bold ${themeClasses.background === 'bg-black' ? 'text-blue-400/12' : 'text-black/8'} non-role-symbol`}
+            >
+              {'</>'}
+            </div>
+            
+            <div 
+              className={`absolute bottom-32 right-1/4 text-3xl md:text-4xl lg:text-5xl font-bold ${themeClasses.background === 'bg-black' ? 'text-blue-400/15' : 'text-black/10'} non-role-symbol`}
+            >
+              {'{}'}
+            </div>
+            
+            <div 
+              className={`absolute top-1/3 right-20 text-2xl md:text-3xl lg:text-4xl font-bold ${themeClasses.background === 'bg-black' ? 'text-blue-400/10' : 'text-black/6'} non-role-symbol`}
+            >
+              {'()'}
+            </div>
+            
+            <div 
+              className={`absolute bottom-1/3 left-20 text-2xl md:text-3xl lg:text-4xl font-bold ${themeClasses.background === 'bg-black' ? 'text-blue-400/12' : 'text-black/8'} non-role-symbol`}
+            >
+              {'[]'}
+            </div>
+            
+            <div 
+              className={`absolute top-2/3 left-1/3 text-xl md:text-2xl lg:text-3xl font-bold ${themeClasses.background === 'bg-black' ? 'text-blue-400/11' : 'text-black/7'} non-role-symbol`}
+            >
+              {';'}
+            </div>
+            
+            <div 
+              className={`absolute top-1/4 right-1/3 text-xl md:text-2xl lg:text-3xl font-bold ${themeClasses.background === 'bg-black' ? 'text-blue-400/13' : 'text-black/9'} non-role-symbol`}
+            >
+              {'='}
+            </div>
+          </div>
+          
+          {/* Subtle grid pattern - responsive */}
+          <div 
+            className={`absolute inset-0 opacity-20`}
+            style={{
+              backgroundImage: `radial-gradient(circle at 2px 2px, ${themeClasses.background === 'bg-black' ? 'rgba(59, 130, 246, 0.1)' : 'rgba(59, 130, 246, 0.08)'} 1px, transparent 0)`,
+              backgroundSize: '40px 40px'
+            }}>
+          </div>
+
+          {/* Professional floating elements - responsive count with theme-appropriate colors */}
+          {[...Array(8)].map((_, i) => (
+            <div
+              key={i}
+              className={`absolute w-1 h-1 ${themeClasses.background === 'bg-black' ? 'bg-blue-400/50' : 'bg-black/30'} rounded-full animate-pulse ${i >= 4 ? 'hidden sm:block' : ''} non-role-element`}
+              style={{
+                top: `${20 + Math.random() * 60}%`,
+                left: `${10 + Math.random() * 80}%`,
+                animationDelay: `${Math.random() * 4}s`,
+                animationDuration: `${4 + Math.random() * 2}s`
+              }}
+            ></div>
+          ))}
+        </div>
+
+        {/* Main Content */}
+        <div className="max-w-6xl mx-auto px-2 sm:px-4 md:px-6 text-center relative z-10 -mt-8 sm:-mt-12 md:-mt-16">
+          <div className="space-y-4 sm:space-y-6">
+            {/* Professional greeting */}
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              className={`text-base sm:text-lg md:text-xl font-medium mb-4 sm:mb-6 ${themeClasses.accent} tracking-wide`}
+            >
+              <span className="relative">
+                Hello, I'm
+                <div className={`absolute -bottom-1 left-0 w-full h-0.5 bg-gradient-to-r ${themeClasses.accent === 'text-blue-400' ? 'from-blue-400' : 'from-blue-600'} to-transparent`}></div>
+              </span>
+            </motion.div>
+
+            {/* Enhanced professional name - responsive text sizes */}
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 1, delay: 0.3 }}
+              className="mb-6 sm:mb-8 relative"
+            >
+              <h1 
+                className={`text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl font-black tracking-tighter relative z-10 ${themeClasses.text}`}
+                style={{
+                  fontFamily: 'Inter, system-ui, -apple-system, sans-serif',
+                  lineHeight: '0.9'
+                }}
+              >
+                SIDHART SAMI
+              </h1>
+              
+              {/* Subtle glow effect */}
+              <div 
+                className={`absolute inset-0 blur-xl opacity-20 ${themeClasses.text}`}
+              >
+                SIDHART SAMI
+              </div>
+            </motion.div>
+
+            {/* Professional animated tagline - responsive */}
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.6 }}
+              className={`text-lg sm:text-xl md:text-2xl lg:text-3xl font-light mb-8 sm:mb-12 ${themeClasses.text} relative`}
+            >
+              <div className="h-10 sm:h-12 flex items-center justify-center">
+                <motion.span
+                  key={currentRole}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.5 }}
+                  className={`${themeClasses.accent} font-semibold`}
+                >
+                  {roles[currentRole]}
+                </motion.span>
+              </div>
+              
+              {/* Professional subtitle */}
+              <div className={`text-sm sm:text-base md:text-lg ${themeClasses.secondaryText} mt-3 sm:mt-4 font-normal px-4 sm:px-0`}>
+                Crafting innovative solutions through code and creativity
+              </div>
+            </motion.div>
+
+            {/* Professional call-to-action buttons - responsive */}
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.9 }}
+              className="flex flex-col sm:flex-row gap-3 sm:gap-4 items-center justify-center mb-6 sm:mb-8 px-4 sm:px-0"
+            >
+              <button 
+              onClick={() => window.location.href = '/details'}
+              className={`group relative bg-gradient-to-r from-blue-600 via-blue-700 to-blue-800 hover:from-blue-700 hover:via-blue-800 hover:to-blue-900 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg text-sm sm:text-base font-semibold transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:shadow-blue-500/25 backdrop-blur-sm text-center w-full sm:w-auto sm:min-w-[180px] overflow-hidden`}
+              >
+              <div className="absolute inset-0 bg-gradient-to-r from-white/10 to-white/5 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 ease-out"></div>
+              <span className="relative z-10 flex items-center justify-center gap-2">
+                <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                </svg>
+                View Portfolio
+              </span>
+              </button>              
+              <button 
+                onClick={() => window.location.href = '/details?section=contact'}
+
+                className={`group relative ${themeClasses.cardBackground} ${themeClasses.cardBackgroundHover} px-6 sm:px-8 py-3 sm:py-4 rounded-lg text-sm sm:text-base font-semibold transition-all duration-300 transform hover:scale-105 border ${themeClasses.border} shadow-sm backdrop-blur-sm hover:border-blue-500/50 hover:shadow-lg text-center w-full sm:w-auto sm:min-w-[180px] overflow-hidden ${themeClasses.text}`}
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 to-blue-600/5 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 ease-out"></div>
+                <span className="relative z-10 flex items-center justify-center gap-2">
+                  <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                  </svg>
+                  Get In Touch
+                </span>
+              </button>
+            </motion.div>
+
+            {/* Professional scroll indicator - responsive */}
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 1, delay: 1.2 }}
+              className="flex flex-col items-center space-y-2 sm:space-y-3 mt-8 sm:mt-12"
+            >
+              <span className={`text-xs sm:text-sm ${themeClasses.mutedText} font-medium tracking-wider uppercase`}>
+                Explore More
+              </span>
+              <div className={`w-5 h-8 sm:w-6 sm:h-10 border-2 ${themeClasses.border} rounded-full flex justify-center relative`}>
+                <div 
+                  className={`w-1 h-2 sm:h-3 ${themeClasses.accent === 'text-blue-400' ? 'bg-blue-400' : 'bg-blue-600'} rounded-full mt-2 animate-bounce`}
+                ></div>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+
+        {/* Professional CSS animations and responsive icon styling */}
+        <style jsx>{`
+          /* Smooth theme transitions */
+          * {
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+          }
+
+          /* Custom scrollbar that matches theme */
+          ::-webkit-scrollbar {
+            width: 8px;
+          }
+
+          ::-webkit-scrollbar-track {
+            background: ${themeClasses.background === 'bg-black' ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.05)'};
+          }
+
+          ::-webkit-scrollbar-thumb {
+            background: ${themeClasses.accent === 'text-blue-400' ? 'rgba(59, 130, 246, 0.4)' : 'rgba(37, 99, 235, 0.6)'};
+            border-radius: 4px;
+          }
+
+          ::-webkit-scrollbar-thumb:hover {
+            background: ${themeClasses.accent === 'text-blue-400' ? 'rgba(59, 130, 246, 0.6)' : 'rgba(37, 99, 235, 0.8)'};
+          }
+
+          /* Role-based icon styling with improved opacity */
+          .role-icon {
+            opacity: ${themeClasses.background === 'bg-black' ? '0.95' : '0.7'} !important;
+            filter: sepia(1) saturate(3) hue-rotate(190deg) brightness(${themeClasses.background === 'bg-black' ? '1.4' : '0.8'}) contrast(1.8) !important;
+            transition: all 0.3s ease;
+          }
+
+          /* Role-based icon hover effects */
+          .group:hover .role-icon {
+            opacity: 1 !important;
+            filter: sepia(1) saturate(4) hue-rotate(190deg) brightness(${themeClasses.background === 'bg-black' ? '1.6' : '1'}) contrast(2) !important;
+            transform: scale(1.1);
+          }
+
+          .group:hover .icon-container {
+            filter: drop-shadow(0 0 12px ${themeClasses.background === 'bg-black' ? 'rgba(59, 130, 246, 0.6)' : 'rgba(37, 99, 235, 0.5)'}) !important;
+          }
+
+          /* Non-role elements (symbols and floating dots) are now theme-appropriate */
+          .non-role-symbol {
+            color: ${themeClasses.background === 'bg-black' ? 'rgba(96, 165, 250, 0.12)' : 'rgba(0, 0, 0, 0.08)'} !important;
+          }
+
+          .non-role-element {
+            background-color: ${themeClasses.background === 'bg-black' ? 'rgba(96, 165, 250, 0.5)' : 'rgba(0, 0, 0, 0.3)'} !important;
+          }
+
+          /* Mobile icon adjustments */
+          @media (max-width: 640px) {
+            .role-icon {
+              opacity: ${themeClasses.background === 'bg-black' ? '0.9' : '0.65'} !important;
+            }
+            
+            /* Ensure mobile icons don't overlap with text content */
+            .absolute[style*="top: 35%"], .absolute[style*="top: 38%"] {
+              z-index: 1;
+            }
+          }
+
+          /* Prevent icon selection and pointer events */
+          img {
+            pointer-events: none;
+            user-select: none;
+            -webkit-user-drag: none;
+            -khtml-user-drag: none;
+            -moz-user-drag: none;
+            -o-user-drag: none;
+          }
+
+          /* Responsive text adjustments */
+          @media (max-width: 480px) {
+            h1 {
+              font-size: 2.5rem !important;
+              line-height: 0.85 !important;
+            }
+          }
+
+          /* Tablet specific adjustments */
+          @media (min-width: 641px) and (max-width: 1024px) {
+            .icon-container {
+              filter: drop-shadow(0 0 8px ${themeClasses.background === 'bg-black' ? 'rgba(59, 130, 246, 0.5)' : 'rgba(37, 99, 235, 0.4)'}) !important;
+            }
+          }
+        `}</style>
+      </section>
+
+      {/* Skills Marquee Section - Responsive adjustments */}
+      <section className={`${themeClasses.background} py-6 sm:py-8 relative overflow-hidden`}>
+        {/* First Skills Strip */}
+        <div className="skills-strip">
+          <div className="skills-content">
+            {/* Original skills */}
+            <div className="skill-item">Python</div>
+            <div className="skill-item">C++</div>
+            <div className="skill-item">JavaScript</div>
+            <div className="skill-item">React</div>
+            <div className="skill-item">SFML</div>
+            <div className="skill-item">Data Science</div>
+            <div className="skill-item">Machine Learning</div>
+            <div className="skill-item">Next.js</div>
+            <div className="skill-item">OOP</div>
+            <div className="skill-item">DSA</div>
+            <div className="skill-item">Game Development</div>
+            <div className="skill-item">Web Development</div>
+            <div className="skill-item">NumPy</div>
+            <div className="skill-item">Pandas</div>
+            
+            {/* Duplicated for seamless loop */}
+            <div className="skill-item">Python</div>
+            <div className="skill-item">C++</div>
+            <div className="skill-item">JavaScript</div>
+            <div className="skill-item">React</div>
+            <div className="skill-item">SFML</div>
+            <div className="skill-item">Data Science</div>
+            <div className="skill-item">Machine Learning</div>
+            <div className="skill-item">Next.js</div>
+            <div className="skill-item">OOP</div>
+            <div className="skill-item">DSA</div>
+            <div className="skill-item">Game Development</div>
+            <div className="skill-item">Web Development</div>
+            <div className="skill-item">NumPy</div>
+            <div className="skill-item">Pandas</div>
+          </div>
+        </div>
+
+        {/* Second Skills Strip */}
+        <div className="skills-strip skills-reverse">
+          <div className="skills-content skills-content-reverse">
+            {/* Original skills */}
+            <div className="skill-item-reverse">Scikit-learn</div>
+            <div className="skill-item-reverse">TensorFlow</div>
+            <div className="skill-item-reverse">Git</div>
+            <div className="skill-item-reverse">Linux</div>
+            <div className="skill-item-reverse">mySQL</div>
+            <div className="skill-item-reverse">CSS</div>
+            <div className="skill-item-reverse">HTML</div>
+            <div className="skill-item-reverse">Matplotlib</div>
+            <div className="skill-item-reverse">Jupyter</div>
+            <div className="skill-item-reverse">Statistics</div>
+            <div className="skill-item-reverse">Data Structures</div>
+            <div className="skill-item-reverse">Problem Solving</div>
+            
+            {/* Duplicated for seamless loop */}
+            <div className="skill-item-reverse">Scikit-learn</div>
+            <div className="skill-item-reverse">TensorFlow</div>
+            <div className="skill-item-reverse">Git</div>
+            <div className="skill-item-reverse">Linux</div>
+            <div className="skill-item-reverse">mySQL</div>
+            <div className="skill-item-reverse">CSS</div>
+            <div className="skill-item-reverse">HTML</div>
+            <div className="skill-item-reverse">Matplotlib</div>
+            <div className="skill-item-reverse">Jupyter</div>
+            <div className="skill-item-reverse">Statistics</div>
+            <div className="skill-item-reverse">Data Structures</div>
+            <div className="skill-item-reverse">Problem Solving</div>
+          </div>
+        </div>
+
+        <style jsx>{`
+          .skills-strip {
+            position: relative;
+            width: 100%;
+            height: 35px;
+            overflow: hidden;
+            background-color: #4a4a4a;
+            margin: 0 0 12px 0;
+            border-radius: 0;
+          }
+
+          .skills-reverse {
+            background-color: ${themeClasses.background === 'bg-black' ? 'white' : '#000000'};
+            margin-top: 4px;
+          }
+
+          .skills-content {
+            display: flex;
+            align-items: center;
+            height: 100%;
+            animation: scrollLeft 30s linear infinite;
+            white-space: nowrap;
+          }
+
+          .skills-content-reverse {
+            animation: scrollRight 30s linear infinite;
+          }
+
+          .skill-item {
+            display: inline-flex;
+            align-items: center;
+            padding: 0 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 400;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            white-space: nowrap;
+            position: relative;
+          }
+
+          .skill-item-reverse {
+            display: inline-flex;
+            align-items: center;
+            padding: 0 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 400;
+            color: ${themeClasses.background === 'bg-black' ? '#000000' : 'white'};
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            white-space: nowrap;
+            position: relative;
+          }
+
+          .skill-item::before {
+            display: inline-block;
+            content: "";
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgb(59, 130, 246);
+            margin-right: 0.4rem;
+            flex-shrink: 0;
+          }
+
+          .skill-item-reverse::before {
+            display: inline-block;
+            content: "";
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgb(59, 130, 246);
+            margin-right: 0.4rem;
+            flex-shrink: 0;
+          }
+
+          @keyframes scrollLeft {
+            0% {
+              transform: translateX(0);
+            }
+            100% {
+              transform: translateX(-50%);
+            }
+          }
+
+          @keyframes scrollRight {
+            0% {
+              transform: translateX(-50%);
+            }
+            100% {
+              transform: translateX(0);
+            }
+          }
+
+          /* Pause animation on hover */
+          .skills-strip:hover .skills-content {
+            animation-play-state: paused;
+          }
+
+          /* Responsive adjustments for skills */
+          @media (min-width: 640px) {
+            .skills-strip {
+              height: 40px;
+              margin: 0 0 14px 0;
+            }
+            
+            .skill-item, .skill-item-reverse {
+              font-size: 1rem;
+              padding: 0 0.625rem;
+            }
+            
+            .skill-item::before, .skill-item-reverse::before {
+              width: 10px;
+              height: 10px;
+              margin-right: 0.5rem;
+            }
+          }
+
+          @media (min-width: 768px) {
+            .skills-strip {
+              height: 50px;
+              margin: 0 0 16px 0;
+            }
+            
+            .skill-item, .skill-item-reverse {
+              font-size: 1.25rem;
+              padding: 0 0.75rem;
+            }
+            
+            .skill-item::before, .skill-item-reverse::before {
+              width: 12px;
+              height: 12px;
+              margin-right: 0.5rem;
+            }
+          }
+
+          /* Extra small mobile devices */
+          @media (max-width: 480px) {
+            .skills-strip {
+              height: 30px;
+              margin: 0 0 8px 0;
+            }
+            
+            .skill-item, .skill-item-reverse {
+              font-size: 0.75rem;
+              padding: 0 0.375rem;
+            }
+            
+            .skill-item::before, .skill-item-reverse::before {
+              width: 6px;
+              height: 6px;
+              margin-right: 0.3rem;
+            }
+          }
+       `}</style>
+      </section>
+    </>
+  );
+};
+
+export default function Home() {
+  const [isDarkMode, setIsDarkMode] = useState(true);
+  const [activeSection, setActiveSection] = useState('');
+  const landingRef = useRef(null);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const router = useRouter();
+
+  // Load theme preference from localStorage on component mount
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme) {
+        setIsDarkMode(savedTheme === 'dark');
+      }
+    }
+  }, []);
+
+  // Save theme preference to localStorage whenever it changes
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+    }
+  }, [isDarkMode]);
+
+  const toggleTheme = () => {
+    setIsDarkMode(!isDarkMode);
+  };
+
+  const themeClasses = {
+    background: isDarkMode ? 'bg-black' : 'bg-gray-50',
+    text: isDarkMode ? 'text-white' : 'text-gray-900',
+    cardBackground: isDarkMode ? 'bg-zinc-900' : 'bg-white',
+    cardBackgroundHover: isDarkMode ? 'hover:bg-zinc-800' : 'hover:bg-gray-100',
+    secondaryBackground: isDarkMode ? 'bg-zinc-800' : 'bg-gray-200',
+    secondaryBackgroundHover: isDarkMode ? 'hover:bg-zinc-700' : 'hover:bg-gray-300',
+    secondaryText: isDarkMode ? 'text-gray-300' : 'text-gray-600',
+    mutedText: isDarkMode ? 'text-gray-400' : 'text-gray-500',
+    border: isDarkMode ? 'border-zinc-700' : 'border-gray-300',
+    primary: 'bg-blue-600 hover:bg-blue-700',
+    primaryText: 'text-white',
+    primaryBorder: 'border-blue-500',
+    accent: isDarkMode ? 'text-blue-400' : 'text-blue-600'
+  };
+
+  // Updated navigation items to link to details page sections
+  const navItems = [
+    { id: 'about', label: 'about', href: '/details?section=about' },
+    { id: 'projects', label: 'projects', href: '/details?section=projects' },
+    { id: 'skills', label: 'skills', href: '/details?section=skills' },
+    { id: 'contact', label: 'contact', href: '/details?section=contact' }
+  ];
+
+  // Function to handle card clicks
+  const handleCardClick = (sectionId) => {
+    router.push(`/details?section=${sectionId}`);
+  };
+
+  return (
+    <>
+      <Head>
+        <title>Sidhart - CS Student Portfolio</title>
+        <meta name="description" content="Computer Science student portfolio showcasing skills, projects, and services" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+      </Head>
+
+      <div className={`min-h-screen ${themeClasses.background} ${themeClasses.text} transition-colors duration-300`}>
+        {/* Static Header with same background as home section */}
+        <header className={`p-3 py-3 md:p-4 md:py-4 static top-0 left-0 right-0 z-50 transition-all duration-300 ${themeClasses.background}`}>
+          <nav className="flex justify-between items-center max-w-7xl mx-auto">
+            {/* Larger Logo Section */}
+            <Link href="/" className="flex items-center">
+              <img 
+                src="/logo.jpg"
+                alt="Logo"
+                className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-full object-cover shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 cursor-pointer"
+              />
+            </Link>
+            
+            {/* Navigation and Theme Toggle */}
+            <div className="flex space-x-1 sm:space-x-2 items-center">
+              {/* Navigation Items - Updated with href */}
+              <div className="hidden md:flex space-x-1">
+                {navItems.map((item) => (
+                  <Link
+                    key={item.id}
+                    href={item.href}
+                    className={`px-3 py-1.5 lg:px-4 lg:py-2 rounded-full text-sm lg:text-base font-medium transition-all duration-300 ${themeClasses.cardBackground} ${themeClasses.cardBackgroundHover} hover:bg-opacity-80 hover:scale-105 backdrop-blur-sm`}
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </div>
+
+              {/* Mobile Navigation Menu - Updated */}
+              <div className="md:hidden">
+                <button
+                  onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                  className={`p-1.5 rounded-lg ${themeClasses.cardBackground} ${themeClasses.cardBackgroundHover} transition-all duration-300 shadow-lg hover:shadow-xl mr-2 backdrop-blur-sm`}
+                  aria-label="Toggle mobile menu"
+                >
+                  {mobileMenuOpen ? (
+                    <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  ) : (
+                    <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                  )}
+                </button>
+              </div>
+
+              {/* Theme Toggle Button */}
+              <button
+                onClick={toggleTheme}
+                className={`p-1.5 rounded-lg ${themeClasses.cardBackground} ${themeClasses.cardBackgroundHover} transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 backdrop-blur-sm`}
+                aria-label="Toggle theme"
+              >
+                {isDarkMode ? (
+                  <svg className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-500" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clipRule="evenodd" />
+                  </svg>
+                ) : (
+                  <svg className="w-4 h-4 sm:w-5 sm:h-5 text-gray-700" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+                  </svg>
+                )}
+              </button>
+            </div>
+          </nav>
+
+          {/* Mobile Menu Dropdown - Updated */}
+          {mobileMenuOpen && (
+            <div className={`md:hidden mt-3 ${themeClasses.cardBackground} rounded-lg shadow-lg border ${themeClasses.border} overflow-hidden backdrop-blur-md`}>
+              <div className="py-1">
+                {navItems.map((item) => (
+                  <Link
+                    key={item.id}
+                    href={item.href}
+                    className={`block px-4 py-2 text-sm font-medium transition-all duration-300 ${themeClasses.cardBackgroundHover} hover:bg-opacity-80 border-b ${themeClasses.border} last:border-b-0`}
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
+        </header>
+
+        {/* Main Content */}
+        <main className="flex-1 w-full">
+          <HomeSection landingRef={landingRef} themeClasses={themeClasses} />
+          
+          {/* About Section - Updated with click handler */}
+          <section className="max-w-7xl mx-auto px-4 md:px-6 py-12">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 h-auto">
+              {/* About Section */}
+              <div 
+                className={`lg:col-span-1 lg:row-span-2 ${themeClasses.cardBackground} rounded-2xl p-6 relative overflow-hidden group cursor-pointer hover:scale-105 hover:ring-2 hover:ring-blue-400 hover:ring-opacity-50 transition-all duration-300 shadow-lg`}
+                onClick={() => handleCardClick('about')}
+              >
+                <div className="h-full flex flex-col justify-between">
+                  <div>
+                    <h2 className="text-2xl font-bold mb-4 group-hover:text-blue-400 transition-colors duration-300">ABOUT</h2>
+                    <div className="space-y-3 text-sm">
+                      <div className="flex items-center space-x-2">
+                        <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                        <span>Open to new opportunities</span>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                        <span>Pakistan-based developer</span>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
+                        <span>Data Science & Full-Stack</span>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
+                        <span>AI/ML enthusiast</span>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <div className="w-2 h-2 bg-pink-500 rounded-full"></div>
+                        <span>Problem-solving focused</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="mt-6">
+                    <div className={`${themeClasses.secondaryBackground} rounded-lg p-3 font-mono text-sm`}>
+                      <div className="text-green-400">$ whoami</div>
+                      <div className="mt-1">Computer Science Student</div>
+                      <div className="text-blue-400">Data Science Specialist</div>
+                      <div className="text-purple-400">Full-Stack Developer</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+<div 
+  className={`lg:col-span-2 ${themeClasses.cardBackground} rounded-2xl p-4 sm:p-6 shadow-lg group cursor-pointer hover:scale-105 hover:ring-2 hover:ring-blue-400 hover:ring-opacity-50 transition-all duration-300`}
+  onClick={() => handleCardClick('skills')}
+>
+  <h2 className="text-lg sm:text-xl font-bold mb-4 sm:mb-6">SERVICES & SKILLS</h2>
+  <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
+    {/* Data Science */}
+    <div className="flex flex-col items-center text-center group">
+      <div className={`w-12 h-12 lg:w-14 lg:h-14 border-2 ${themeClasses.border} rounded-full flex items-center justify-center mb-2 overflow-hidden transition-all duration-300 group-hover:border-blue-400`}>
+        <img 
+          src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/numpy/numpy-original.svg" 
+          alt="Data Science" 
+          className="w-6 h-6 lg:w-8 lg:h-8 filter grayscale group-hover:grayscale-0 transition-all duration-300"
+        />
+      </div>
+      <span className={`text-xs lg:text-sm ${themeClasses.mutedText} group-hover:text-blue-400 transition-colors duration-300 text-center leading-tight`}>Data Science</span>
+    </div>
+    
+    {/* Machine Learning */}
+    <div className="flex flex-col items-center text-center group">
+      <div className={`w-12 h-12 lg:w-14 lg:h-14 border-2 ${themeClasses.border} rounded-full flex items-center justify-center mb-2 overflow-hidden transition-all duration-300 group-hover:border-orange-400`}>
+        <img 
+          src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tensorflow/tensorflow-original.svg" 
+          alt="Machine Learning" 
+          className="w-6 h-6 lg:w-8 lg:h-8 filter grayscale group-hover:grayscale-0 transition-all duration-300"
+        />
+      </div>
+      <span className={`text-xs lg:text-sm ${themeClasses.mutedText} group-hover:text-orange-400 transition-colors duration-300 text-center leading-tight`}>Machine Learning</span>
+    </div>
+    
+    {/* Game Development */}
+    <div className="flex flex-col items-center text-center group">
+      <div className={`w-12 h-12 lg:w-14 lg:h-14 border-2 ${themeClasses.border} rounded-full flex items-center justify-center mb-2 overflow-hidden transition-all duration-300 group-hover:border-purple-400`}>
+        <img 
+          src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/unity/unity-original.svg" 
+          alt="Game Development" 
+          className="w-6 h-6 lg:w-8 lg:h-8 filter grayscale group-hover:grayscale-0 transition-all duration-300"
+        />
+      </div>
+      <span className={`text-xs lg:text-sm ${themeClasses.mutedText} group-hover:text-purple-400 transition-colors duration-300 text-center leading-tight`}>Game Development</span>
+    </div>
+    
+    {/* Web Scraping */}
+    <div className="flex flex-col items-center text-center group">
+      <div className={`w-12 h-12 lg:w-14 lg:h-14 border-2 ${themeClasses.border} rounded-full flex items-center justify-center mb-2 overflow-hidden transition-all duration-300 group-hover:border-yellow-400`}>
+        <svg 
+          className="w-6 h-6 lg:w-8 lg:h-8 filter grayscale group-hover:grayscale-0 transition-all duration-300 text-yellow-600"
+          fill="currentColor" 
+          viewBox="0 0 24 24"
+        >
+          <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm0 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/>
+          <path d="M8 8h8v2H8V8zm0 3h8v2H8v-2zm0 3h5v2H8v-2z"/>
+          <path d="M5 5h2v2H5V5zm0 3h2v2H5V8zm0 3h2v2H5v-2zm0 3h2v2H5v-2z"/>
+          <path d="M19 8l-3 3 3 3v-6z"/>
+        </svg>
+      </div>
+      <span className={`text-xs lg:text-sm ${themeClasses.mutedText} group-hover:text-yellow-400 transition-colors duration-300 text-center leading-tight`}>Web Scraping</span>
+    </div>
+    
+    {/* Web Development */}
+    <div className="flex flex-col items-center text-center group col-span-2 sm:col-span-1">
+      <div className={`w-12 h-12 lg:w-14 lg:h-14 border-2 ${themeClasses.border} rounded-full flex items-center justify-center mb-2 overflow-hidden transition-all duration-300 group-hover:border-cyan-400`}>
+        <img 
+          src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg" 
+          alt="Website Development" 
+          className="w-6 h-6 lg:w-8 lg:h-8 filter grayscale group-hover:grayscale-0 transition-all duration-300"
+        />
+      </div>
+      <span className={`text-xs lg:text-sm ${themeClasses.mutedText} group-hover:text-cyan-400 transition-colors duration-300 text-center leading-tight`}>Website Development</span>
+    </div>
+  </div>
+</div>
+
+<div 
+  className={`lg:col-span-1 ${themeClasses.cardBackground} rounded-2xl p-6 flex flex-col justify-between shadow-lg group cursor-pointer hover:scale-105 hover:ring-2 hover:ring-blue-400 hover:ring-opacity-50 transition-all duration-300 relative`}
+  onClick={() => handleCardClick('certifications')}
+>
+  <div className="absolute top-4 right-4">
+    <svg
+      className={`w-12 h-12 ${themeClasses.mutedText} group-hover:text-blue-400 group-hover:scale-110 transition-all duration-300`}
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={2}
+        d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+      />
+    </svg>
+  </div>
+  <div>
+    <h2 className="text-xl font-bold mb-4">CERTIFICATIONS</h2>
+    <div className="space-y-2">
+      <div className={`${themeClasses.secondaryBackground} rounded-lg p-2 text-sm`}>
+        <div className="font-medium">IBM Data Science</div>
+        <div className={`${themeClasses.mutedText} text-xs`}>Coursera</div>
+      </div>
+      <div className={`${themeClasses.secondaryBackground} rounded-lg p-2 text-sm`}>
+        <div className="font-medium">Google Advanced Data Analytics</div>
+        <div className={`${themeClasses.mutedText} text-xs`}>Coursera </div>
+      </div>
+    </div>
+  </div>
+</div>
+              {/* Work Section - Updated with click handler */}
+              <div 
+                className={`lg:col-span-2 ${themeClasses.cardBackground} rounded-2xl p-6 group cursor-pointer hover:scale-105 hover:ring-2 hover:ring-blue-400 hover:ring-opacity-50 transition-all duration-300 shadow-lg relative`}
+                onClick={() => handleCardClick('projects')}
+              >
+                <div className="flex items-center justify-between mb-6">
+                  <h2 className="text-xl font-bold">PROJECTS</h2>
+                  <div className={`w-14 h-14 ${themeClasses.secondaryBackground} rounded-full flex items-center justify-center transition-all duration-300 group-hover:scale-110`}>
+                    <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                    </svg>
+                  </div>
+                </div>
+                <div className="space-y-4">
+                  <div className={`${themeClasses.secondaryBackground} ${themeClasses.secondaryBackgroundHover} rounded-lg p-4 transition-colors cursor-pointer flex items-center space-x-3`}>
+                    <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-green-700 rounded-lg flex items-center justify-center">
+                      <svg className="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm6 16h-2v-2h-2v2H8v-2H6v2H4v-4h2v-2H4V8h2v2h2V8h6v2h2v2h2v4z"/>
+                      </svg>
+                    </div>
+                    <div>
+                      <h3 className="font-semibold mb-1">Plants vs Zombies</h3>
+                      <p className={`text-sm ${themeClasses.secondaryText}`}>Game developed using SFML and C++</p>
+                    </div>
+                  </div>
+                  <div className={`${themeClasses.secondaryBackground} ${themeClasses.secondaryBackgroundHover} rounded-lg p-4 transition-colors cursor-pointer flex items-center space-x-3`}>
+                    <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-700 rounded-lg flex items-center justify-center">
+                      <svg className="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-1 9H9V9h10v2zm-4 4H9v-2h6v2zm4-8H9V5h10v2z"/>
+                      </svg>
+                    </div>
+                    <div>
+                      <h3 className="font-semibold mb-1">Library Management System</h3>
+                      <p className={`text-sm ${themeClasses.secondaryText}`}>System built with Assembly language</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Contact Section - Updated with click handler */}
+              <div 
+                className={`lg:col-span-1 ${themeClasses.cardBackground} rounded-2xl p-6 flex flex-col justify-between shadow-lg group cursor-pointer hover:scale-105 hover:ring-2 hover:ring-blue-400 hover:ring-opacity-50 transition-all duration-300`}
+                onClick={() => handleCardClick('contact')}
+              >
+                <div>
+                  <div className="flex items-center mb-4 bg-blue-600 px-3 py-1.5 rounded-full text-white text-sm">
+                    <div className="w-2 h-2 bg-blue-400 rounded-full mr-2 animate-pulse"></div>
+                    <span>Let's Connect</span>
+                  </div>
+                </div>
+                <div className="flex-1 flex flex-col justify-center space-y-2">
+                  <a 
+                    href="mailto:sidhart.samir.punjabi@gmail.com" 
+                    className="flex items-center space-x-3 group/item hover:bg-blue-50 dark:hover:bg-blue-900/20 p-2 rounded-lg transition-colors duration-200"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <div className={`w-8 h-8 ${themeClasses.secondaryBackground} rounded-lg flex items-center justify-center group-hover/item:bg-blue-500 group-hover/item:scale-110 transition-all duration-200`}>
+                      <svg className="w-4 h-4 group-hover/item:text-white transition-colors duration-200" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                      </svg>
+                    </div>
+                    <span className="text-sm group-hover/item:text-blue-600 transition-colors duration-200">E-Mail</span>
+                  </a>
+                  <a 
+                    href="https://www.linkedin.com/in/sidhart-sami/" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="flex items-center space-x-3 group/item hover:bg-blue-50 dark:hover:bg-blue-900/20 p-2 rounded-lg transition-colors duration-200"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <div className={`w-8 h-8 ${themeClasses.secondaryBackground} rounded-lg flex items-center justify-center group-hover/item:bg-blue-700 group-hover/item:scale-110 transition-all duration-200`}>
+                      <svg className="w-4 h-4 group-hover/item:text-white transition-colors duration-200" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                      </svg>
+                    </div>
+                    <span className="text-sm group-hover/item:text-blue-600 transition-colors duration-200">LinkedIn</span>
+                  </a>
+                  <a 
+                    href="https://github.com/SidhartSami" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="flex items-center space-x-3 group/item hover:bg-gray-50 dark:hover:bg-gray-800/50 p-2 rounded-lg transition-colors duration-200"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <div className={`w-8 h-8 ${themeClasses.secondaryBackground} rounded-lg flex items-center justify-center group-hover/item:bg-gray-800 group-hover/item:scale-110 transition-all duration-200`}>
+                      <svg className="w-4 h-4 group-hover/item:text-white transition-colors duration-200" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                      </svg>
+                    </div>
+                    <span className="text-sm group-hover/item:text-gray-700 dark:group-hover/item:text-gray-300 transition-colors duration-200">GitHub</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </section>
+        </main>
+      </div>
+    </>
+  );
+}
