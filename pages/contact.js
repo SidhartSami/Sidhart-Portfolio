@@ -303,7 +303,7 @@ const Contact = ({ contactRef }) => {
 
                 {/* LinkedIn Icon */}
                 <a 
-                  href="https://linkedin.com/in/yourprofile" 
+                  href="https://www.linkedin.com/in/sidhart-sami/" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className={`group relative p-2.5 sm:p-3 ${cardBgClass} ${borderClass} border rounded-lg sm:rounded-xl shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 hover:border-blue-500`}
@@ -317,7 +317,7 @@ const Contact = ({ contactRef }) => {
 
                 {/* GitHub Icon */}
                 <a 
-                  href="https://github.com/yourusername" 
+                  href="https://github.com/SidhartSami" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className={`group relative p-2.5 sm:p-3 ${cardBgClass} ${borderClass} border rounded-lg sm:rounded-xl shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 hover:border-blue-500`}

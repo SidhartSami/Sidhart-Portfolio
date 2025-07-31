@@ -9,7 +9,7 @@ import { useRouter } from 'next/router';
 const inter = Inter({ subsets: ['latin'], weight: ['400', '500', '700'] });
 const roles = ["Data Science Enthusiast", "Full-Stack Developer", "Game Developer"];
 
-const HomeSection = ({ landingRef, themeClasses }) => {
+const HomeSection = ({ landingRef, themeClasses, router }) => {
   const [currentRole, setCurrentRole] = useState(0);
 
   useEffect(() => {
@@ -173,20 +173,25 @@ const HomeSection = ({ landingRef, themeClasses }) => {
               className="flex flex-col sm:flex-row gap-3 sm:gap-4 items-center justify-center mb-6 sm:mb-8 px-4 sm:px-0"
             >
               <button 
-              onClick={() => window.location.href = '/details'}
-              className={`group relative bg-gradient-to-r from-blue-600 via-blue-700 to-blue-800 hover:from-blue-700 hover:via-blue-800 hover:to-blue-900 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg text-sm sm:text-base font-semibold transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:shadow-blue-500/25 backdrop-blur-sm text-center w-full sm:w-auto sm:min-w-[180px] overflow-hidden`}
-              >
-              <div className="absolute inset-0 bg-gradient-to-r from-white/10 to-white/5 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 ease-out"></div>
-              <span className="relative z-10 flex items-center justify-center gap-2">
-                <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-                </svg>
-                View Portfolio
-              </span>
-              </button>              
+                  onClick={() => {
+                    sessionStorage.setItem('scrollToSection', 'home');
+                    router.push('/details');
+                  }}
+                  className={`group relative bg-gradient-to-r from-blue-600 via-blue-700 to-blue-800 hover:from-blue-700 hover:via-blue-800 hover:to-blue-900 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg text-sm sm:text-base font-semibold transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:shadow-blue-500/25 backdrop-blur-sm text-center w-full sm:w-auto sm:min-w-[180px] overflow-hidden`}
+                >
+                  <div className="absolute inset-0 bg-gradient-to-r from-white/10 to-white/5 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 ease-out"></div>
+                  <span className="relative z-10 flex items-center justify-center gap-2">
+                    <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                    </svg>
+                    View Portfolio
+                  </span>
+                </button>       
               <button 
-                onClick={() => window.location.href = '/details?section=contact'}
-
+                onClick={() => {
+                  sessionStorage.setItem('scrollToSection','contact');
+                  router.push('/details?section=contact');
+                }}
                 className={`group relative ${themeClasses.cardBackground} ${themeClasses.cardBackgroundHover} px-6 sm:px-8 py-3 sm:py-4 rounded-lg text-sm sm:text-base font-semibold transition-all duration-300 transform hover:scale-105 border ${themeClasses.border} shadow-sm backdrop-blur-sm hover:border-blue-500/50 hover:shadow-lg text-center w-full sm:w-auto sm:min-w-[180px] overflow-hidden ${themeClasses.text}`}
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 to-blue-600/5 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 ease-out"></div>
@@ -518,29 +523,82 @@ export default function Home() {
   const [activeSection, setActiveSection] = useState('');
   const landingRef = useRef(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const router = useRouter();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Load theme preference from localStorage on component mount
   useEffect(() => {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== 'undefined' && mounted) {
+      // Check both localStorage and next-themes storage
       const savedTheme = localStorage.getItem('theme');
-      if (savedTheme) {
-        setIsDarkMode(savedTheme === 'dark');
+      const nextThemesTheme = localStorage.getItem('theme'); // next-themes uses same key
+      
+      // Priority: next-themes > localStorage > default
+      let themeToUse = 'dark'; // default
+      
+      if (nextThemesTheme) {
+        themeToUse = nextThemesTheme;
+      } else if (savedTheme) {
+        themeToUse = savedTheme;
       }
+      
+      setIsDarkMode(themeToUse === 'dark');
     }
-  }, []);
+  }, [mounted]);
 
-  // Save theme preference to localStorage whenever it changes
+  // Save theme preference to localStorage whenever it changes (sync with next-themes)
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+    if (typeof window !== 'undefined' && mounted) {
+      const themeValue = isDarkMode ? 'dark' : 'light';
+      localStorage.setItem('theme', themeValue);
+      
+      // Also set the theme for next-themes compatibility
+      document.documentElement.setAttribute('data-theme', themeValue);
+      document.documentElement.classList.toggle('dark', isDarkMode);
     }
-  }, [isDarkMode]);
+  }, [isDarkMode, mounted]);
+
+  // Listen for theme changes from other tabs/pages
+  useEffect(() => {
+    if (typeof window !== 'undefined' && mounted) {
+      const handleStorageChange = (e) => {
+        if (e.key === 'theme') {
+          setIsDarkMode(e.newValue === 'dark');
+        }
+      };
+      
+      window.addEventListener('storage', handleStorageChange);
+      
+      // Also listen for focus events to sync when returning from detail page
+      const handleFocus = () => {
+        const currentTheme = localStorage.getItem('theme');
+        if (currentTheme) {
+          setIsDarkMode(currentTheme === 'dark');
+        }
+      };
+      
+      window.addEventListener('focus', handleFocus);
+      
+      return () => {
+        window.removeEventListener('storage', handleStorageChange);
+        window.removeEventListener('focus', handleFocus);
+      };
+    }
+  }, [mounted]);
+  
 
   const toggleTheme = () => {
     setIsDarkMode(!isDarkMode);
   };
 
+  if (!mounted) {
+    return null;
+  } 
+  
   const themeClasses = {
     background: isDarkMode ? 'bg-black' : 'bg-gray-50',
     text: isDarkMode ? 'text-white' : 'text-gray-900',
@@ -567,21 +625,26 @@ export default function Home() {
 
   // Function to handle card clicks
   const handleCardClick = (sectionId) => {
-    router.push(`/details?section=${sectionId}`);
-  };
-  const handleNavClick = (sectionId) => {
+    // Store the target section in sessionStorage for the details page to use
+    sessionStorage.setItem('scrollToSection', sectionId);
     router.push(`/details?section=${sectionId}`);
   };
 
-  // Complete return section for your Home component - replace everything from "return (" to the final ");"
+  // Enhanced function to handle navigation clicks with proper scrolling  
+  const handleNavClick = (sectionId) => {
+    // Store the target section in sessionStorage for the details page to use
+    sessionStorage.setItem('scrollToSection', sectionId);
+    router.push(`/details?section=${sectionId}`);
+  };
 
 return (
   <>
     <Head>
-  <title>Sidhart - CS Student Portfolio</title>
-  <meta name="description" content="Computer Science student portfolio showcasing skills, projects, and services" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-</Head>
+        <title>Sidhart - Portfolio</title>
+        <meta name="description" content="Detailed portfolio of Sidhart, a Computer Science student showcasing skills, projects, certifications, and contact information" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+         <link rel="icon" href="/icon.png" />
+      </Head>
 
 <div className={`min-h-screen ${themeClasses.background} ${themeClasses.text} transition-colors duration-300`}>
   {/* Static Header with same background as home section */}
@@ -677,7 +740,7 @@ return (
 
       {/* Main Content */}
       <main className="flex-1 w-full">
-        <HomeSection landingRef={landingRef} themeClasses={themeClasses} />
+        <HomeSection landingRef={landingRef} themeClasses={themeClasses} router={router} />
         
         {/* About Section - Updated with click handler */}
         <section className="max-w-7xl mx-auto px-4 md:px-6 py-12">

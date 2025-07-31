@@ -37,15 +37,14 @@ const AboutSection = ({ aboutRef }) => {
   if (!mounted) return null;
 
   const expertSkills = {
-    languages: ['C/C++', 'HTML', 'CSS', 'MySQL'],
+    languages: ['C/C++', 'HTML', 'CSS', 'MySQL','JavaScript'],
     libraries: ['Pandas', 'NumPy', 'Scikit-learn', 'Matplotlib', 'Seaborn', 'Tableau', 'MATLAB'],
     concepts: ['OOP', 'Git/GitHub']
   };
 
   const moderateSkills = {
-    languages: ['Python', 'JavaScript'],
+    languages: ['Python'],
     libraries: ['SFML', 'Streamlit'],
-    concepts: ['Data Structures & Algorithms']
   };
 
   const learnerSkills = {

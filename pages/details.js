@@ -1,6 +1,6 @@
 import { Inter } from 'next/font/google';
 import Head from 'next/head';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
@@ -29,14 +29,15 @@ export default function Details() {
   const projectsRef = useRef(null);
   const contactRef = useRef(null);
 
-  const sections = [
+  const sections = useMemo(() => [
     { id: 'landing', ref: landingRef },
     { id: 'about', ref: aboutRef },
     { id: 'skills', ref: skillsRef },
     { id: 'certifications', ref: certificationsRef },
     { id: 'projects', ref: projectsRef },
     { id: 'contact', ref: contactRef },
-  ];
+  ], [landingRef, aboutRef, skillsRef, certificationsRef, projectsRef, contactRef]);
+
 
   // Ensure component is mounted to avoid hydration mismatch
   useEffect(() => {
@@ -44,64 +45,74 @@ export default function Details() {
   }, []);
 
   // Scroll to section on initial load
-  useEffect(() => {
-    if (section && mounted) {
-      const sectionRefs = {
-        landing: landingRef,
-        about: aboutRef,
-        skills: skillsRef,
-        certifications: certificationsRef,
-        projects: projectsRef,
-        contact: contactRef,
-      };
-      const targetRef = sectionRefs[section];
-      if (targetRef?.current) {
-        targetRef.current.scrollIntoView({ behavior: 'smooth' });
-      }
-    }
-  }, [section, mounted]);
+  // Replace the existing scroll detection useEffect in details.js with this improved version:
 
-// Replace the existing Intersection Observer useEffect with this:
 useEffect(() => {
   const handleScroll = () => {
-    const scrollPosition = window.scrollY + window.innerHeight / 3; // Changed from /2 to /3
+    const scrollPosition = window.scrollY;
+    const windowHeight = window.innerHeight;
+    const documentHeight = document.documentElement.scrollHeight;
+    
+    // If we're at the very top, always show landing
+    if (scrollPosition < 100) {
+      setActiveSection('landing');
+      setShowHeaderLogo(false);
+      return;
+    }
+    
+    // If we're near the bottom, show contact
+    if (scrollPosition + windowHeight >= documentHeight - 100) {
+      setActiveSection('contact');
+      setShowHeaderLogo(true);
+      return;
+    }
     
     let currentSection = 'landing';
-    let closestSection = null;
-    let closestDistance = Infinity;
+    let minDistance = Infinity;
     
     sections.forEach(({ id, ref }) => {
       if (ref.current) {
         const element = ref.current;
-        const offsetTop = element.offsetTop;
-        const offsetHeight = element.offsetHeight;
-        const sectionCenter = offsetTop + offsetHeight / 2;
-        const distance = Math.abs(scrollPosition - sectionCenter);
+        const rect = element.getBoundingClientRect();
+        const elementTop = rect.top + scrollPosition;
+        const elementBottom = elementTop + rect.height;
+        const elementCenter = elementTop + (rect.height / 2);
         
-        // Find the section whose center is closest to our scroll position
-        if (distance < closestDistance) {
-          closestDistance = distance;
-          closestSection = id;
-        }
+        // Check if section is currently visible in viewport
+        const isVisible = rect.top < windowHeight && rect.bottom > 0;
         
-        // Also check if we're clearly within a section
-        if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
-          currentSection = id;
+        if (isVisible) {
+          // Calculate how much of the section is visible
+          const visibleTop = Math.max(0, -rect.top);
+          const visibleBottom = Math.min(rect.height, windowHeight - rect.top);
+          const visibleHeight = visibleBottom - visibleTop;
+          const visibilityRatio = visibleHeight / rect.height;
+          
+          // If more than 50% of the section is visible, or it's the most visible section
+          if (visibilityRatio > 0.5) {
+            currentSection = id;
+          } else {
+            // Otherwise, find the section whose center is closest to the center of viewport
+            const viewportCenter = scrollPosition + (windowHeight / 2);
+            const distance = Math.abs(elementCenter - viewportCenter);
+            
+            if (distance < minDistance) {
+              minDistance = distance;
+              currentSection = id;
+            }
+          }
         }
       }
     });
     
-    // Use the section we're clearly in, or fall back to the closest one
-    const finalSection = currentSection !== 'landing' ? currentSection : closestSection;
-    
-    setActiveSection(finalSection);
-    setShowHeaderLogo(finalSection !== 'landing');
+    setActiveSection(currentSection);
+    setShowHeaderLogo(currentSection !== 'landing');
   };
 
   // Initial check
   handleScroll();
   
-  // Add scroll listener with throttling
+  // Add scroll listener with throttling for better performance
   let ticking = false;
   const scrollListener = () => {
     if (!ticking) {
@@ -113,12 +124,84 @@ useEffect(() => {
     }
   };
   
-  window.addEventListener('scroll', scrollListener);
+  window.addEventListener('scroll', scrollListener, { passive: true });
+  window.addEventListener('resize', handleScroll, { passive: true });
   
   return () => {
     window.removeEventListener('scroll', scrollListener);
+    window.removeEventListener('resize', handleScroll);
   };
 }, [sections]);
+  useEffect(() => {
+    if (mounted) {
+      // Check both URL params and sessionStorage
+      const targetSection = section || sessionStorage.getItem('scrollToSection');
+      
+      if (targetSection) {
+        const sectionRefs = {
+          landing: landingRef,
+          about: aboutRef,
+          skills: skillsRef,
+          certifications: certificationsRef,
+          projects: projectsRef,
+          contact: contactRef,
+        };
+        
+        const targetRef = sectionRefs[targetSection];
+        if (targetRef?.current) {
+          // Add a small delay to ensure the page is fully loaded
+          setTimeout(() => {
+            const element = targetRef.current;
+            
+            // Device-specific scroll offset calculations (same as your navigation)
+            const getScrollOffset = () => {
+              const width = window.innerWidth;
+              const height = window.innerHeight;
+              
+              if (targetSection === 'landing') return 0;
+              
+              if (width < 768) {
+                if (height <= 667) {
+                  if (targetSection === 'about') return 40;
+                  return 10;
+                } else if (height <= 844) {
+                  if (targetSection === 'contact') return 60;
+                  return 30;
+                } else {
+                  if (targetSection === 'about' || targetSection === 'projects') return 50;
+                  if (targetSection === 'skills') return 60;
+                  if (targetSection === 'certifications') return 40;
+                  if (targetSection === 'contact') return 80;
+                  return 50;
+                }
+              } else if (width >= 768 && width < 1024) {
+                if (width <= 820) {
+                  if (targetSection === 'certifications' || targetSection === 'projects') return -20;
+                  return 0;
+                } else {
+                  if (targetSection === 'certifications' || targetSection === 'projects') return -120;
+                  return -100;
+                }
+              } else {
+                return 70;
+              }
+            };
+            
+            const scrollOffset = getScrollOffset();
+            const elementPosition = element.offsetTop + scrollOffset;
+            
+            window.scrollTo({
+              top: elementPosition,
+              behavior: 'smooth'
+            });
+            
+            // Clear the sessionStorage after successful scroll
+            sessionStorage.removeItem('scrollToSection');
+          }, 100);
+        }
+      }
+    }
+  }, [section, mounted]);
 
   const toggleTheme = () => {
     setTheme(theme === 'dark' ? 'light' : 'dark');
@@ -147,6 +230,7 @@ useEffect(() => {
         <title>Sidhart - Portfolio</title>
         <meta name="description" content="Detailed portfolio of Sidhart, a Computer Science student showcasing skills, projects, certifications, and contact information" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+         <link rel="icon" href="/icon.png" />
       </Head>
 
       <div className={`min-h-screen ${theme === 'dark' ? 'bg-black' : 'bg-white'} ${theme === 'dark' ? 'text-white' : 'text-black'} ${inter.className} transition-colors duration-300 flex flex-col`}>

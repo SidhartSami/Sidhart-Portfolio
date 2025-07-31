@@ -27,7 +27,9 @@ const Projects = ({ projectsRef }) => {
       github: "https://github.com/SidhartSami/Ecommerce-Website_IICT",
       live: "https://sidhartsami.github.io/Ecommerce-Website_IICT/",
       icon: "🛍️",
-      gradient: "from-pink-400 to-rose-500"
+      gradient: "from-pink-400 to-rose-500",
+      hasGithub: true,
+      hasLive: true,
     },
     {
       id: 2,
@@ -37,7 +39,9 @@ const Projects = ({ projectsRef }) => {
       category: "Intro to Game Dev",
       github: "https://github.com/SidhartSami/Centipede_PF",
       icon: "👾",
-      gradient: "from-green-500 to-teal-600"
+      gradient: "from-green-500 to-teal-600",
+       hasGithub: true,
+      hasLive: false ,
     },
     {
       id: 3,
@@ -46,7 +50,9 @@ const Projects = ({ projectsRef }) => {
       technologies: ["C++", "OOP", "SFML"],
       category: "Game Development",
       icon: "🧟",
-      gradient: "from-lime-500 to-green-600"
+      gradient: "from-lime-500 to-green-600",
+      hasGithub: false,
+      hasLive: false,
     },
     {
       id: 4,
@@ -56,7 +62,9 @@ const Projects = ({ projectsRef }) => {
       category: "Low-Level Systems",
       github: "https://github.com/SidhartSami/Library-Management-System",
       icon: "📚",
-      gradient: "from-gray-700 to-gray-900"
+      gradient: "from-gray-700 to-gray-900",
+      hasGithub: true,
+      hasLive: false,
     },
     {
       id: 5,
@@ -67,7 +75,9 @@ const Projects = ({ projectsRef }) => {
       github: "https://github.com/SidhartSami/FAST-NUCES-TimeTable",
       live: "https://nucestimetable.streamlit.app/",
       icon: "📅",
-      gradient: "from-blue-500 to-indigo-600"
+      gradient: "from-blue-500 to-indigo-600",
+      hasGithub: true,
+      hasLive: true,
     },
     {
       id: 6,
@@ -76,7 +86,9 @@ const Projects = ({ projectsRef }) => {
       technologies: ["C", "File System", "Multithreading"],
       category: "System Programming",
       icon: "📝",
-      gradient: "from-slate-500 to-zinc-700"
+      gradient: "from-slate-500 to-zinc-700",
+      hasGithub: false,
+      hasLive: false,
     },
     {
       id: 7,
@@ -86,7 +98,9 @@ const Projects = ({ projectsRef }) => {
       category: "Algorithm Visualization",
       github: "https://github.com/SidhartSami/SudokoSolver_TOA",
       icon: "🧠",
-      gradient: "from-purple-500 to-fuchsia-600"
+      gradient: "from-purple-500 to-fuchsia-600",
+      hasGithub: true,
+      hasLive: false,
     }
   ];
 
@@ -528,26 +542,43 @@ const ProjectCard = ({
             </div>
             
             {/* Action Buttons */}
-            {isCenter && (
+            {/* Action Buttons */}
+            {isCenter && (project.hasGithub || project.hasLive) && (
               <div className={`pt-2 transition-all duration-700 ${hoveredCard === project.id || screenSize === 'mobile' ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
-                <div className="flex gap-3">
-                  <button className={`flex-1 px-4 ${textSizes.button} bg-gradient-to-r ${project.gradient} text-white rounded-xl font-semibold shadow-lg hover:shadow-2xl hover:shadow-blue-500/30 transition-all duration-300 transform hover:scale-105 active:scale-95`}>
-                    <span className="flex items-center justify-center gap-2">
-                      <svg className="w-4 h-4 group-hover:rotate-12 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                      </svg>
-                      Live Demo
-                    </span>
-                  </button>
-                  <button className={`flex-1 px-4 ${textSizes.button} rounded-xl font-semibold shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-105 active:scale-95
-                    ${theme === 'dark' ? 'bg-zinc-800 text-zinc-300 border-zinc-700 hover:bg-zinc-700' : 'bg-white text-zinc-700 border-zinc-300 hover:bg-zinc-50'} border-2`}>
-                    <span className="flex items-center justify-center gap-2">
-                      <svg className="w-4 h-4 group-hover:rotate-12 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-                      </svg>
-                      GitHub
-                    </span>
-                  </button>
+                <div className={`flex gap-3 ${!project.hasGithub || !project.hasLive ? 'justify-center' : ''}`}>
+                  {project.hasLive && (
+                    <button 
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        window.open(project.live, '_blank');
+                      }}
+                      className={`${!project.hasGithub ? 'flex-1 max-w-xs' : 'flex-1'} px-4 ${textSizes.button} bg-gradient-to-r ${project.gradient} text-white rounded-xl font-semibold shadow-lg hover:shadow-2xl hover:shadow-blue-500/30 transition-all duration-300 transform hover:scale-105 active:scale-95`}
+                    >
+                      <span className="flex items-center justify-center gap-2">
+                        <svg className="w-4 h-4 group-hover:rotate-12 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                        </svg>
+                        Live Demo
+                      </span>
+                    </button>
+                  )}
+                  {project.hasGithub && (
+                    <button 
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        window.open(project.github, '_blank');
+                      }}
+                      className={`${!project.hasLive ? 'flex-1 max-w-xs' : 'flex-1'} px-4 ${textSizes.button} rounded-xl font-semibold shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-105 active:scale-95
+                        ${theme === 'dark' ? 'bg-zinc-800 text-zinc-300 border-zinc-700 hover:bg-zinc-700' : 'bg-white text-zinc-700 border-zinc-300 hover:bg-zinc-50'} border-2`}
+                    >
+                      <span className="flex items-center justify-center gap-2">
+                        <svg className="w-4 h-4 group-hover:rotate-12 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                        </svg>
+                        GitHub
+                      </span>
+                    </button>
+                  )}
                 </div>
               </div>
             )}

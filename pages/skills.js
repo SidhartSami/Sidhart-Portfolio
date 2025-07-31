@@ -137,7 +137,8 @@ const LogoSkill = ({ name, imageSrc, isDarkMode, index = 0 }) => {
             <Image
               src={imageSrc} 
               alt={name}
-
+              width={40}
+              height={40}
               className={`relative w-full h-full object-contain transition-all duration-300 rounded-lg ${
                 isHovered ? 'filter-none' : 'filter grayscale hover:grayscale-0'
               }`}
