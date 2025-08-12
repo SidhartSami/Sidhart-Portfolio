@@ -1,3 +1,4 @@
+
 import { Inter } from 'next/font/google';
 import Head from 'next/head';
 import { useState, useEffect, useRef } from 'react';
