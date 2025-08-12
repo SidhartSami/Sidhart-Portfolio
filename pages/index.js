@@ -1,4 +1,3 @@
-
 import { Inter } from 'next/font/google';
 import Head from 'next/head';
 import { useState, useEffect, useRef } from 'react';
@@ -16,7 +15,7 @@ const HomeSection = ({ landingRef, themeClasses, router }) => {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentRole((prev) => (prev + 1) % roles.length);
-    }, 5000);
+    }, 1500);
     return () => clearInterval(interval);
   }, []); // ✅ now no warning
 
@@ -748,253 +747,305 @@ return (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 h-auto">
             {/* About Section */}
             <div 
-              className={`lg:col-span-1 lg:row-span-2 ${themeClasses.cardBackground} rounded-2xl p-6 relative overflow-hidden group cursor-pointer hover:scale-105 hover:ring-2 hover:ring-blue-400 hover:ring-opacity-50 transition-all duration-300 shadow-lg`}
-              onClick={() => handleCardClick('about')}
-            >
-              <div className="h-full flex flex-col justify-between">
-                <div>
-                  <h2 className="text-2xl font-bold mb-4 group-hover:text-blue-400 transition-colors duration-300">ABOUT</h2>
-                  <div className="space-y-3 text-sm">
-                    <div className="flex items-center space-x-2">
-                      <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                      <span>Open to new opportunities</span>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                      <span>Pakistan-based developer</span>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
-                      <span>Data Science & Full-Stack</span>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
-                      <span>AI/ML enthusiast</span>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <div className="w-2 h-2 bg-pink-500 rounded-full"></div>
-                      <span>Problem-solving focused</span>
-                    </div>
-                  </div>
-                </div>
-                <div className="mt-6">
-                  <div className={`${themeClasses.secondaryBackground} rounded-lg p-3 font-mono text-sm`}>
-                    <div className="text-green-400">$ whoami</div>
-                    <div className="mt-1">Computer Science Student</div>
-                    <div className="text-blue-400">Data Science Specialist</div>
-                    <div className="text-purple-400">Full-Stack Developer</div>
-                  </div>
-                </div>
-              </div>
-            </div>
+  className={`lg:col-span-1 lg:row-span-2 ${themeClasses.cardBackground} rounded-2xl p-6 relative overflow-hidden group cursor-pointer hover:scale-105 hover:ring-2 hover:ring-blue-400 hover:ring-opacity-50 transition-all duration-300 shadow-lg`}
+  onClick={() => handleCardClick('about')}
+>
+  <div className="absolute bottom-4 right-4">
+    <div className="w-8 h-8 bg-blue-500/80 rounded-full flex items-center justify-center group-hover:bg-blue-500 group-hover:scale-110 transition-all duration-300">
+      <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+      </svg>
+    </div>
+  </div>
+  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-blue-500/5 to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+  
+  <div className="h-full flex flex-col justify-between relative z-10">
+    <div>
+      <h2 className="text-2xl font-bold mb-4 group-hover:text-blue-400 transition-colors duration-300">ABOUT</h2>
+      <div className="space-y-3 text-sm">
+        <div className="flex items-center space-x-2">
+          <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+          <span>Open to new opportunities</span>
+        </div>
+        <div className="flex items-center space-x-2">
+          <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+          <span>Pakistan-based developer</span>
+        </div>
+        <div className="flex items-center space-x-2">
+          <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
+          <span>Data Science & Full-Stack</span>
+        </div>
+        <div className="flex items-center space-x-2">
+          <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
+          <span>AI/ML enthusiast</span>
+        </div>
+        <div className="flex items-center space-x-2">
+          <div className="w-2 h-2 bg-pink-500 rounded-full"></div>
+          <span>Problem-solving focused</span>
+        </div>
+      </div>
+    </div>
+    <div className="mt-6">
+      <div className={`${themeClasses.secondaryBackground} rounded-lg p-3 font-mono text-sm group-hover:bg-blue-900/20 transition-colors duration-300`}>
+        <div className="text-green-400">$ whoami</div>
+        <div className="mt-1">Computer Science Student</div>
+        <div className="text-blue-400">Data Science Specialist</div>
+        <div className="text-purple-400">Full-Stack Developer</div>
+      </div>
+    </div>
+  </div>
+</div>
 
-            <div 
-              className={`lg:col-span-2 ${themeClasses.cardBackground} rounded-2xl p-4 sm:p-6 shadow-lg group cursor-pointer hover:scale-105 hover:ring-2 hover:ring-blue-400 hover:ring-opacity-50 transition-all duration-300`}
-              onClick={() => handleCardClick('skills')}
-            >
-              <h2 className="text-lg sm:text-xl font-bold mb-4 sm:mb-6">SERVICES & SKILLS</h2>
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
-                {/* Data Science */}
-                <div className="flex flex-col items-center text-center group">
-                  <div className={`w-12 h-12 lg:w-14 lg:h-14 border-2 ${themeClasses.border} rounded-full flex items-center justify-center mb-2 overflow-hidden transition-all duration-300 group-hover:border-blue-400`}>
-                    <Image 
-                      src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/numpy/numpy-original.svg" 
-                      alt="Data Science" 
-                      width={6}
-                      height={6}
-                      className="w-6 h-6 lg:w-8 lg:h-8 filter grayscale group-hover:grayscale-0 transition-all duration-300"
-                    />
-                  </div>
-                  <span className={`text-xs lg:text-sm ${themeClasses.mutedText} group-hover:text-blue-400 transition-colors duration-300 text-center leading-tight`}>Data Science</span>
-                </div>
-                
-                {/* Machine Learning */}
-                <div className="flex flex-col items-center text-center group">
-                  <div className={`w-12 h-12 lg:w-14 lg:h-14 border-2 ${themeClasses.border} rounded-full flex items-center justify-center mb-2 overflow-hidden transition-all duration-300 group-hover:border-orange-400`}>
-                    <Image 
-                      src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tensorflow/tensorflow-original.svg" 
-                      alt="Machine Learning" 
-                      width={6}
-                      height={6}
-                      className="w-6 h-6 lg:w-8 lg:h-8 filter grayscale group-hover:grayscale-0 transition-all duration-300"
-                    />
-                  </div>
-                  <span className={`text-xs lg:text-sm ${themeClasses.mutedText} group-hover:text-orange-400 transition-colors duration-300 text-center leading-tight`}>Machine Learning</span>
-                </div>
-                
-                {/* Game Development */}
-                <div className="flex flex-col items-center text-center group">
-                  <div className={`w-12 h-12 lg:w-14 lg:h-14 border-2 ${themeClasses.border} rounded-full flex items-center justify-center mb-2 overflow-hidden transition-all duration-300 group-hover:border-purple-400`}>
-                    <Image 
-                      src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/unity/unity-original.svg" 
-                      alt="Game Development" 
-                      width={6}
-                      height={6}
-                      className="w-6 h-6 lg:w-8 lg:h-8 filter grayscale group-hover:grayscale-0 transition-all duration-300"
-                    />
-                  </div>
-                  <span className={`text-xs lg:text-sm ${themeClasses.mutedText} group-hover:text-purple-400 transition-colors duration-300 text-center leading-tight`}>Game Development</span>
-                </div>
-                
-                {/* Web Scraping */}
-                <div className="flex flex-col items-center text-center group">
-                  <div className={`w-12 h-12 lg:w-14 lg:h-14 border-2 ${themeClasses.border} rounded-full flex items-center justify-center mb-2 overflow-hidden transition-all duration-300 group-hover:border-yellow-400`}>
-                    <svg 
-                      className="w-6 h-6 lg:w-8 lg:h-8 filter grayscale group-hover:grayscale-0 transition-all duration-300 text-yellow-600"
-                      fill="currentColor" 
-                      viewBox="0 0 24 24"
-                    >
-                      <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm0 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/>
-                      <path d="M8 8h8v2H8V8zm0 3h8v2H8v-2zm0 3h5v2H8v-2z"/>
-                      <path d="M5 5h2v2H5V5zm0 3h2v2H5V8zm0 3h2v2H5v-2zm0 3h2v2H5v-2z"/>
-                      <path d="M19 8l-3 3 3 3v-6z"/>
-                    </svg>
-                  </div>
-                  <span className={`text-xs lg:text-sm ${themeClasses.mutedText} group-hover:text-yellow-400 transition-colors duration-300 text-center leading-tight`}>Web Scraping</span>
-                </div>
-                
-                {/* Web Development */}
-                <div className="flex flex-col items-center text-center group col-span-2 sm:col-span-1">
-                  <div className={`w-12 h-12 lg:w-14 lg:h-14 border-2 ${themeClasses.border} rounded-full flex items-center justify-center mb-2 overflow-hidden transition-all duration-300 group-hover:border-cyan-400`}>
-                    <Image 
-                      src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg" 
-                      alt="Website Development" 
-                      width={6}
-                      height={6}
-                      className="w-6 h-6 lg:w-8 lg:h-8 filter grayscale group-hover:grayscale-0 transition-all duration-300"
-                    />
-                  </div>
-                  <span className={`text-xs lg:text-sm ${themeClasses.mutedText} group-hover:text-cyan-400 transition-colors duration-300 text-center leading-tight`}>Website Development</span>
-                </div>
-              </div>
-            </div>
+<div 
+  className={`lg:col-span-2 ${themeClasses.cardBackground} rounded-2xl p-4 sm:p-6 shadow-lg group cursor-pointer hover:scale-105 hover:ring-2 hover:ring-blue-400 hover:ring-opacity-50 transition-all duration-300 relative overflow-hidden`}
+  onClick={() => handleCardClick('skills')}
+>
+  <div className="absolute top-4 right-4">
+    <div className="w-8 h-8 bg-blue-500/80 rounded-full flex items-center justify-center group-hover:bg-blue-500 group-hover:scale-110 transition-all duration-300">
+      <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+      </svg>
+    </div>
+  </div>
+  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-blue-500/5 to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+  
+  <div className="relative z-10">
+    <h2 className="text-lg sm:text-xl font-bold mb-4 sm:mb-6 group-hover:text-blue-400 transition-colors duration-300">SERVICES & SKILLS</h2>
+    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
+      {/* Data Science */}
+      <div className="flex flex-col items-center text-center group/item">
+        <div className={`w-12 h-12 lg:w-14 lg:h-14 border-2 ${themeClasses.border} rounded-full flex items-center justify-center mb-2 overflow-hidden transition-all duration-300 group-hover:border-blue-400`}>
+          <Image 
+            src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/numpy/numpy-original.svg" 
+            alt="Data Science" 
+            width={6}
+            height={6}
+            className="w-6 h-6 lg:w-8 lg:h-8 filter grayscale group-hover:grayscale-0 transition-all duration-300"
+          />
+        </div>
+        <span className={`text-xs lg:text-sm ${themeClasses.mutedText} group-hover:text-blue-400 transition-colors duration-300 text-center leading-tight`}>Data Science</span>
+      </div>
+      
+      {/* Machine Learning */}
+      <div className="flex flex-col items-center text-center group/item">
+        <div className={`w-12 h-12 lg:w-14 lg:h-14 border-2 ${themeClasses.border} rounded-full flex items-center justify-center mb-2 overflow-hidden transition-all duration-300 group-hover:border-blue-400`}>
+          <Image 
+            src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tensorflow/tensorflow-original.svg" 
+            alt="Machine Learning" 
+            width={6}
+            height={6}
+            className="w-6 h-6 lg:w-8 lg:h-8 filter grayscale group-hover:grayscale-0 transition-all duration-300"
+          />
+        </div>
+        <span className={`text-xs lg:text-sm ${themeClasses.mutedText} group-hover:text-blue-400 transition-colors duration-300 text-center leading-tight`}>Machine Learning</span>
+      </div>
+      
+      {/* Game Development */}
+      <div className="flex flex-col items-center text-center group/item">
+        <div className={`w-12 h-12 lg:w-14 lg:h-14 border-2 ${themeClasses.border} rounded-full flex items-center justify-center mb-2 overflow-hidden transition-all duration-300 group-hover:border-blue-400`}>
+          <Image 
+            src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/unity/unity-original.svg" 
+            alt="Game Development" 
+            width={6}
+            height={6}
+            className="w-6 h-6 lg:w-8 lg:h-8 filter grayscale group-hover:grayscale-0 transition-all duration-300"
+          />
+        </div>
+        <span className={`text-xs lg:text-sm ${themeClasses.mutedText} group-hover:text-blue-400 transition-colors duration-300 text-center leading-tight`}>Game Development</span>
+      </div>
+      
+      {/* Web Scraping */}
+      <div className="flex flex-col items-center text-center group/item">
+        <div className={`w-12 h-12 lg:w-14 lg:h-14 border-2 ${themeClasses.border} rounded-full flex items-center justify-center mb-2 overflow-hidden transition-all duration-300 group-hover:border-blue-400`}>
+          <svg 
+            className="w-6 h-6 lg:w-8 lg:h-8 filter grayscale group-hover:grayscale-0 transition-all duration-300 text-yellow-600"
+            fill="currentColor" 
+            viewBox="0 0 24 24"
+          >
+            <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm0 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/>
+            <path d="M8 8h8v2H8V8zm0 3h8v2H8v-2zm0 3h5v2H8v-2z"/>
+            <path d="M5 5h2v2H5V5zm0 3h2v2H5V8zm0 3h2v2H5v-2zm0 3h2v2H5v-2z"/>
+            <path d="M19 8l-3 3 3 3v-6z"/>
+          </svg>
+        </div>
+        <span className={`text-xs lg:text-sm ${themeClasses.mutedText} group-hover:text-blue-400 transition-colors duration-300 text-center leading-tight`}>Web Scraping</span>
+      </div>
+      
+      {/* Web Development */}
+      <div className="flex flex-col items-center text-center group/item col-span-2 sm:col-span-1">
+        <div className={`w-12 h-12 lg:w-14 lg:h-14 border-2 ${themeClasses.border} rounded-full flex items-center justify-center mb-2 overflow-hidden transition-all duration-300 group-hover:border-blue-400`}>
+          <Image 
+            src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg" 
+            alt="Website Development" 
+            width={6}
+            height={6}
+            className="w-6 h-6 lg:w-8 lg:h-8 filter grayscale group-hover:grayscale-0 transition-all duration-300"
+          />
+        </div>
+        <span className={`text-xs lg:text-sm ${themeClasses.mutedText} group-hover:text-blue-400 transition-colors duration-300 text-center leading-tight`}>Website Development</span>
+      </div>
+    </div>
+  </div>
+</div>
 
-            <div 
-              className={`lg:col-span-1 ${themeClasses.cardBackground} rounded-2xl p-6 flex flex-col justify-between shadow-lg group cursor-pointer hover:scale-105 hover:ring-2 hover:ring-blue-400 hover:ring-opacity-50 transition-all duration-300 relative`}
-              onClick={() => handleCardClick('certifications')}
-            >
-              <div className="absolute top-4 right-4">
-                <svg
-                  className={`w-12 h-12 ${themeClasses.mutedText} group-hover:text-blue-400 group-hover:scale-110 transition-all duration-300`}
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
-                  />
-                </svg>
-              </div>
-              <div>
-                <h2 className="text-xl font-bold mb-4">CERTIFICATIONS</h2>
-                <div className="space-y-2">
-                  <div className={`${themeClasses.secondaryBackground} rounded-lg p-2 text-sm`}>
-                    <div className="font-medium">IBM Data Science</div>
-                    <div className={`${themeClasses.mutedText} text-xs`}>Coursera</div>
-                  </div>
-                  <div className={`${themeClasses.secondaryBackground} rounded-lg p-2 text-sm`}>
-                    <div className="font-medium">Google Advanced Data Analytics</div>
-                    <div className={`${themeClasses.mutedText} text-xs`}>Coursera </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+<div 
+  className={`lg:col-span-1 ${themeClasses.cardBackground} rounded-2xl p-6 flex flex-col justify-between shadow-lg group cursor-pointer hover:scale-105 hover:ring-2 hover:ring-blue-400 hover:ring-opacity-50 transition-all duration-300 relative overflow-hidden`}
+  onClick={() => handleCardClick('certifications')}
+>
+  <div className="absolute bottom-4 right-4">
+    <div className="w-8 h-8 bg-blue-500/80 rounded-full flex items-center justify-center group-hover:bg-blue-500 group-hover:scale-110 transition-all duration-300">
+      <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+      </svg>
+    </div>
+  </div>
+  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-blue-500/5 to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+  
+  <div className="relative z-10">
+    <div className="absolute bottom-30 right-3">
+      <svg
+        className={`w-12 h-12 ${themeClasses.mutedText} group-hover:text-blue-400 group-hover:scale-110 transition-all duration-300`}
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+        />
+      </svg>
+    </div>
+    <div>
+      <h2 className="text-xl font-bold mb-4 group-hover:text-blue-400 transition-colors duration-300">CERTIFICATIONS</h2>
+      <div className="space-y-2">
+        <div className={`${themeClasses.secondaryBackground} rounded-lg p-2 text-sm group-hover:bg-blue-900/20 transition-colors duration-300`}>
+          <div className="font-medium">IBM Data Science</div>
+          <div className={`${themeClasses.mutedText} text-xs`}>Coursera</div>
+        </div>
+        <div className={`${themeClasses.secondaryBackground} rounded-lg p-2 text-sm group-hover:bg-blue-900/20 transition-colors duration-300`}>
+          <div className="font-medium">Google Advanced Data Analytics</div>
+          <div className={`${themeClasses.mutedText} text-xs`}>Coursera </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-            {/* Work Section - Updated with click handler */}
-            <div 
-              className={`lg:col-span-2 ${themeClasses.cardBackground} rounded-2xl p-6 group cursor-pointer hover:scale-105 hover:ring-2 hover:ring-blue-400 hover:ring-opacity-50 transition-all duration-300 shadow-lg relative`}
-              onClick={() => handleCardClick('projects')}
-            >
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-xl font-bold">PROJECTS</h2>
-                <div className={`w-14 h-14 ${themeClasses.secondaryBackground} rounded-full flex items-center justify-center transition-all duration-300 group-hover:scale-110`}>
-                  <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-                  </svg>
-                </div>
-              </div>
-              <div className="space-y-4">
-                <div className={`${themeClasses.secondaryBackground} ${themeClasses.secondaryBackgroundHover} rounded-lg p-4 transition-colors cursor-pointer flex items-center space-x-3`}>
-                  <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-green-700 rounded-lg flex items-center justify-center">
-                    <svg className="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm6 16h-2v-2h-2v2H8v-2H6v2H4v-4h2v-2H4V8h2v2h2V8h6v2h2v2h2v4z"/>
-                    </svg>
-                  </div>
-                  <div>
-                    <h3 className="font-semibold mb-1">Plants vs Zombies</h3>
-                    <p className={`text-sm ${themeClasses.secondaryText}`}>Game developed using SFML and C++</p>
-                  </div>
-                </div>
-                <div className={`${themeClasses.secondaryBackground} ${themeClasses.secondaryBackgroundHover} rounded-lg p-4 transition-colors cursor-pointer flex items-center space-x-3`}>
-                  <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-700 rounded-lg flex items-center justify-center">
-                    <svg className="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-1 9H9V9h10v2zm-4 4H9v-2h6v2zm4-8H9V5h10v2z"/>
-                    </svg>
-                  </div>
-                  <div>
-                    <h3 className="font-semibold mb-1">Library Management System</h3>
-                    <p className={`text-sm ${themeClasses.secondaryText}`}>System built with Assembly language</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-              {/* Contact Section - Updated with click handler */}
-               <div 
-                  className={`lg:col-span-1 ${themeClasses.cardBackground} rounded-2xl p-6 flex flex-col justify-between shadow-lg group cursor-pointer hover:scale-105 hover:ring-2 hover:ring-blue-400 hover:ring-opacity-50 transition-all duration-300`}
-                  onClick={() => handleCardClick('contact')}
-                >
-                <div>
-                  <div className="flex items-center mb-4 bg-blue-600 px-3 py-1.5 rounded-full text-white text-sm">
-                    <div className="w-2 h-2 bg-blue-400 rounded-full mr-2 animate-pulse"></div>
-                    <span>Let&apos;s Connect</span>
-                  </div>
-                </div>
-                <div className="flex-1 flex flex-col justify-center space-y-2">
-                  <a 
-                    href="mailto:sidhart.samir.punjabi@gmail.com" 
-                    className="flex items-center space-x-3 group/item hover:bg-blue-50 dark:hover:bg-blue-900/20 p-2 rounded-lg transition-colors duration-200"
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    <div className={`w-8 h-8 ${themeClasses.secondaryBackground} rounded-lg flex items-center justify-center group-hover/item:bg-blue-500 group-hover/item:scale-110 transition-all duration-200`}>
-                      <svg className="w-4 h-4 group-hover/item:text-white transition-colors duration-200" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
-                      </svg>
-                    </div>
-                    <span className="text-sm group-hover/item:text-blue-600 transition-colors duration-200">E-Mail</span>
-                  </a>
-                  <a 
-                    href="https://www.linkedin.com/in/sidhart-sami/" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="flex items-center space-x-3 group/item hover:bg-blue-50 dark:hover:bg-blue-900/20 p-2 rounded-lg transition-colors duration-200"
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    <div className={`w-8 h-8 ${themeClasses.secondaryBackground} rounded-lg flex items-center justify-center group-hover/item:bg-blue-700 group-hover/item:scale-110 transition-all duration-200`}>
-                      <svg className="w-4 h-4 group-hover/item:text-white transition-colors duration-200" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                      </svg>
-                    </div>
-                    <span className="text-sm group-hover/item:text-blue-600 transition-colors duration-200">LinkedIn</span>
-                  </a>
-                  <a 
-                    href="https://github.com/SidhartSami" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="flex items-center space-x-3 group/item hover:bg-gray-50 dark:hover:bg-gray-800/50 p-2 rounded-lg transition-colors duration-200"
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    <div className={`w-8 h-8 ${themeClasses.secondaryBackground} rounded-lg flex items-center justify-center group-hover/item:bg-gray-800 group-hover/item:scale-110 transition-all duration-200`}>
-                      <svg className="w-4 h-4 group-hover/item:text-white transition-colors duration-200" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                      </svg>
-                    </div>
-                    <span className="text-sm group-hover/item:text-gray-700 dark:group-hover/item:text-gray-300 transition-colors duration-200">GitHub</span>
-                  </a>
-                </div>
-              </div>
+<div 
+  className={`lg:col-span-2 ${themeClasses.cardBackground} rounded-2xl p-6 group cursor-pointer hover:scale-105 hover:ring-2 hover:ring-blue-400 hover:ring-opacity-50 transition-all duration-300 shadow-lg relative overflow-hidden`}
+  onClick={() => handleCardClick('projects')}
+>
+  <div className="absolute bottom-4 right-4">
+    <div className="w-8 h-8 bg-blue-500/80 rounded-full flex items-center justify-center group-hover:bg-blue-500 group-hover:scale-110 transition-all duration-300">
+      <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+      </svg>
+    </div>
+  </div>
+  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-blue-500/5 to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+  
+  <div className="relative z-10">
+    <div className="flex items-center justify-between mb-6">
+      <h2 className="text-xl font-bold group-hover:text-blue-400 transition-colors duration-300">PROJECTS</h2>
+      <div className={`w-14 h-14 ${themeClasses.secondaryBackground} rounded-full flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:bg-blue-900/20`}>
+        <svg className="w-8 h-8 group-hover:text-blue-400 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+        </svg>
+      </div>
+    </div>
+    <div className="space-y-4">
+      <div className={`${themeClasses.secondaryBackground} ${themeClasses.secondaryBackgroundHover} rounded-lg p-4 transition-colors cursor-pointer flex items-center space-x-3 group-hover:bg-blue-900/20`}>
+        <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-green-700 rounded-lg flex items-center justify-center">
+          <svg className="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm6 16h-2v-2h-2v2H8v-2H6v2H4v-4h2v-2H4V8h2v2h2V8h6v2h2v2h2v4z"/>
+          </svg>
+        </div>
+        <div>
+          <h3 className="font-semibold mb-1">Plants vs Zombies</h3>
+          <p className={`text-sm ${themeClasses.secondaryText}`}>Game developed using SFML and C++</p>
+        </div>
+      </div>
+      <div className={`${themeClasses.secondaryBackground} ${themeClasses.secondaryBackgroundHover} rounded-lg p-4 transition-colors cursor-pointer flex items-center space-x-3 group-hover:bg-blue-900/20`}>
+        <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-700 rounded-lg flex items-center justify-center">
+          <svg className="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-1 9H9V9h10v2zm-4 4H9v-2h6v2zm4-8H9V5h10v2z"/>
+          </svg>
+        </div>
+        <div>
+          <h3 className="font-semibold mb-1">Library Management System</h3>
+          <p className={`text-sm ${themeClasses.secondaryText}`}>System built with Assembly language</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div 
+  className={`lg:col-span-1 ${themeClasses.cardBackground} rounded-2xl p-6 flex flex-col justify-between shadow-lg group cursor-pointer hover:scale-105 hover:ring-2 hover:ring-blue-400 hover:ring-opacity-50 transition-all duration-300 relative overflow-hidden`}
+  onClick={() => handleCardClick('contact')}
+>
+  <div className="absolute bottom-4 right-4">
+    <div className="w-8 h-8 bg-blue-500/80 rounded-full flex items-center justify-center group-hover:bg-blue-500 group-hover:scale-110 transition-all duration-300">
+      <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+      </svg>
+    </div>
+  </div>
+  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-blue-500/5 to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+  
+  <div className="relative z-10">
+    <div>
+      <div className="flex items-center mb-4 bg-blue-600 px-3 py-1.5 rounded-full text-white text-sm group-hover:bg-blue-500 transition-colors duration-300">
+        <div className="w-2 h-2 bg-blue-400 rounded-full mr-2 animate-pulse"></div>
+        <span>Let&apos;s Connect</span>
+      </div>
+    </div>
+    <div className="flex-1 flex flex-col justify-center space-y-2">
+      <a 
+        href="mailto:sidhart.samir.punjabi@gmail.com" 
+        className="flex items-center space-x-3 group/item hover:bg-blue-50 dark:hover:bg-blue-900/20 p-2 rounded-lg transition-colors duration-200"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className={`w-8 h-8 ${themeClasses.secondaryBackground} rounded-lg flex items-center justify-center group-hover/item:bg-blue-500 group-hover/item:scale-110 transition-all duration-200`}>
+          <svg className="w-4 h-4 group-hover/item:text-white transition-colors duration-200" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+          </svg>
+        </div>
+        <span className="text-sm group-hover/item:text-blue-600 transition-colors duration-200">E-Mail</span>
+      </a>
+      <a 
+        href="https://www.linkedin.com/in/sidhart-sami/" 
+        target="_blank" 
+        rel="noopener noreferrer"
+        className="flex items-center space-x-3 group/item hover:bg-blue-50 dark:hover:bg-blue-900/20 p-2 rounded-lg transition-colors duration-200"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className={`w-8 h-8 ${themeClasses.secondaryBackground} rounded-lg flex items-center justify-center group-hover/item:bg-blue-700 group-hover/item:scale-110 transition-all duration-200`}>
+          <svg className="w-4 h-4 group-hover/item:text-white transition-colors duration-200" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+          </svg>
+        </div>
+        <span className="text-sm group-hover/item:text-blue-600 transition-colors duration-200">LinkedIn</span>
+      </a>
+      <a 
+        href="https://github.com/SidhartSami" 
+        target="_blank" 
+        rel="noopener noreferrer"
+        className="flex items-center space-x-3 group/item hover:bg-blue-50 dark:hover:bg-blue-900/20 p-2 rounded-lg transition-colors duration-200"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className={`w-8 h-8 ${themeClasses.secondaryBackground} rounded-lg flex items-center justify-center group-hover/item:bg-blue-500 group-hover/item:scale-110 transition-all duration-200`}>
+          <svg className="w-4 h-4 group-hover/item:text-white transition-colors duration-200" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+          </svg>
+        </div>
+        <span className="text-sm group-hover/item:text-blue-600 transition-colors duration-200">GitHub</span>
+      </a>
+    </div>
+  </div>
+</div>
             </div>
           </section>
         </main>
