@@ -750,9 +750,9 @@ export default function Home() {
   className={`lg:col-span-1 lg:row-span-2 ${themeClasses.cardBackground} rounded-2xl p-6 relative overflow-hidden group cursor-pointer hover:scale-105 hover:ring-2 hover:ring-blue-400 hover:ring-opacity-50 transition-all duration-300 shadow-lg`}
   onClick={() => handleCardClick('about')}
 >
-  <div className="absolute bottom-4 right-4">
-    <div className="w-8 h-8 bg-blue-500/80 rounded-full flex items-center justify-center group-hover:bg-blue-500 group-hover:scale-110 transition-all duration-300">
-      <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+  <div className="absolute top-4 right-4">
+    <div className={`w-8 h-8 ${themeClasses.cardBackground} border-2 ${themeClasses.border} rounded-lg flex items-center justify-center group-hover:border-blue-400 group-hover:bg-blue-50 dark:group-hover:bg-blue-900/20 group-hover:scale-110 transition-all duration-300 shadow-sm group-hover:shadow-lg`}>
+      <svg className={`w-4 h-4 ${themeClasses.accent} group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
       </svg>
     </div>
@@ -801,8 +801,8 @@ export default function Home() {
   onClick={() => handleCardClick('skills')}
 >
   <div className="absolute top-4 right-4">
-    <div className="w-8 h-8 bg-blue-500/80 rounded-full flex items-center justify-center group-hover:bg-blue-500 group-hover:scale-110 transition-all duration-300">
-      <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <div className={`w-8 h-8 ${themeClasses.cardBackground} border-2 ${themeClasses.border} rounded-lg flex items-center justify-center group-hover:border-blue-400 group-hover:bg-blue-50 dark:group-hover:bg-blue-900/20 group-hover:scale-110 transition-all duration-300 shadow-sm group-hover:shadow-lg`}>
+      <svg className={`w-4 h-4 ${themeClasses.accent} group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
       </svg>
     </div>
@@ -892,9 +892,9 @@ export default function Home() {
   className={`lg:col-span-1 ${themeClasses.cardBackground} rounded-2xl p-6 flex flex-col justify-between shadow-lg group cursor-pointer hover:scale-105 hover:ring-2 hover:ring-blue-400 hover:ring-opacity-50 transition-all duration-300 relative overflow-hidden`}
   onClick={() => handleCardClick('certifications')}
 >
-  <div className="absolute bottom-4 right-4">
-    <div className="w-8 h-8 bg-blue-500/80 rounded-full flex items-center justify-center group-hover:bg-blue-500 group-hover:scale-110 transition-all duration-300">
-      <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+  <div className="absolute top-4 right-4">
+    <div className={`w-8 h-8 ${themeClasses.cardBackground} border-2 ${themeClasses.border} rounded-lg flex items-center justify-center group-hover:border-blue-400 group-hover:bg-blue-50 dark:group-hover:bg-blue-900/20 group-hover:scale-110 transition-all duration-300 shadow-sm group-hover:shadow-lg`}>
+      <svg className={`w-4 h-4 ${themeClasses.accent} group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
       </svg>
     </div>
@@ -902,21 +902,6 @@ export default function Home() {
   <div className="absolute inset-0 bg-gradient-to-r from-transparent via-blue-500/5 to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
   
   <div className="relative z-10">
-    <div className="absolute bottom-30 right-3">
-      <svg
-        className={`w-12 h-12 ${themeClasses.mutedText} group-hover:text-blue-400 group-hover:scale-110 transition-all duration-300`}
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth={2}
-          d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
-        />
-      </svg>
-    </div>
     <div>
       <h2 className="text-xl font-bold mb-4 group-hover:text-blue-400 transition-colors duration-300">CERTIFICATIONS</h2>
       <div className="space-y-2">
@@ -937,9 +922,9 @@ export default function Home() {
   className={`lg:col-span-2 ${themeClasses.cardBackground} rounded-2xl p-6 group cursor-pointer hover:scale-105 hover:ring-2 hover:ring-blue-400 hover:ring-opacity-50 transition-all duration-300 shadow-lg relative overflow-hidden`}
   onClick={() => handleCardClick('projects')}
 >
-  <div className="absolute bottom-4 right-4">
-    <div className="w-8 h-8 bg-blue-500/80 rounded-full flex items-center justify-center group-hover:bg-blue-500 group-hover:scale-110 transition-all duration-300">
-      <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+  <div className="absolute top-4 right-4">
+    <div className={`w-8 h-8 ${themeClasses.cardBackground} border-2 ${themeClasses.border} rounded-lg flex items-center justify-center group-hover:border-blue-400 group-hover:bg-blue-50 dark:group-hover:bg-blue-900/20 group-hover:scale-110 transition-all duration-300 shadow-sm group-hover:shadow-lg`}>
+      <svg className={`w-4 h-4 ${themeClasses.accent} group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
       </svg>
     </div>
@@ -947,13 +932,8 @@ export default function Home() {
   <div className="absolute inset-0 bg-gradient-to-r from-transparent via-blue-500/5 to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
   
   <div className="relative z-10">
-    <div className="flex items-center justify-between mb-6">
+    <div className="mb-6">
       <h2 className="text-xl font-bold group-hover:text-blue-400 transition-colors duration-300">PROJECTS</h2>
-      <div className={`w-14 h-14 ${themeClasses.secondaryBackground} rounded-full flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:bg-blue-900/20`}>
-        <svg className="w-8 h-8 group-hover:text-blue-400 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-        </svg>
-      </div>
     </div>
     <div className="space-y-4">
       <div className={`${themeClasses.secondaryBackground} ${themeClasses.secondaryBackgroundHover} rounded-lg p-4 transition-colors cursor-pointer flex items-center space-x-3 group-hover:bg-blue-900/20`}>
@@ -986,9 +966,9 @@ export default function Home() {
   className={`lg:col-span-1 ${themeClasses.cardBackground} rounded-2xl p-6 flex flex-col justify-between shadow-lg group cursor-pointer hover:scale-105 hover:ring-2 hover:ring-blue-400 hover:ring-opacity-50 transition-all duration-300 relative overflow-hidden`}
   onClick={() => handleCardClick('contact')}
 >
-  <div className="absolute bottom-4 right-4">
-    <div className="w-8 h-8 bg-blue-500/80 rounded-full flex items-center justify-center group-hover:bg-blue-500 group-hover:scale-110 transition-all duration-300">
-      <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+  <div className="absolute top-4 right-4">
+    <div className={`w-8 h-8 ${themeClasses.cardBackground} border-2 ${themeClasses.border} rounded-lg flex items-center justify-center group-hover:border-blue-400 group-hover:bg-blue-50 dark:group-hover:bg-blue-900/20 group-hover:scale-110 transition-all duration-300 shadow-sm group-hover:shadow-lg`}>
+      <svg className={`w-4 h-4 ${themeClasses.accent} group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
       </svg>
     </div>
@@ -996,7 +976,7 @@ export default function Home() {
   <div className="absolute inset-0 bg-gradient-to-r from-transparent via-blue-500/5 to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
   
   <div className="relative z-10">
-    <div>
+    <div className="mt-8">
       <div className="flex items-center mb-4 bg-blue-600 px-3 py-1.5 rounded-full text-white text-sm group-hover:bg-blue-500 transition-colors duration-300">
         <div className="w-2 h-2 bg-blue-400 rounded-full mr-2 animate-pulse"></div>
         <span>Let&apos;s Connect</span>
