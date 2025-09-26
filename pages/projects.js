@@ -21,7 +21,7 @@ const Projects = ({ projectsRef }) => {
     {
       id: 1,
       title: "Ozone – E-Commerce Website",
-      description: "A brand-focused e-commerce website designed for the fictional clothing label 'Ozone', developed using only HTML and CSS. The site features a clean and modern UI that showcases product categories like menswear and womenswear, a promotional banner system, and a fully responsive layout optimized for both desktop and mobile users. While static in functionality, the project emphasizes the use of semantic HTML5 structure and modular CSS classes to simulate a real-world front-end design system for fashion retail.",
+      description: "A brand-focused e-commerce website for the fictional clothing label 'Ozone', built with HTML and CSS. Features clean modern UI, responsive design, product categories, and promotional banners showcasing front-end design principles.",
       technologies: ["HTML", "CSS"],
       category: "Web Design & UI",
       github: "https://github.com/SidhartSami/Ecommerce-Website_IICT",
@@ -34,7 +34,7 @@ const Projects = ({ projectsRef }) => {
     {
       id: 2,
       title: "Centipede – Arcade Game",
-      description: "A classic arcade-style Centipede game recreated using C++ and the SFML graphics library, with strict adherence to procedural programming principles. Developed as part of a Programming Fundamentals (PF) course, the project demonstrates core concepts such as game loops, collision detection, entity movement, and real-time input handling—all without object-oriented abstractions. The game includes progressively increasing difficulty, animated sprites, and a modular codebase organized by gameplay state.",
+      description: "A classic arcade-style Centipede game built with C++ and SFML graphics library. Demonstrates procedural programming concepts including game loops, collision detection, entity movement, and real-time input handling.",
       technologies: ["C++", "SFML", "Procedural Programming"],
       category: "Intro to Game Dev",
       github: "https://github.com/SidhartSami/Centipede_PF",
@@ -99,6 +99,18 @@ const Projects = ({ projectsRef }) => {
       github: "https://github.com/SidhartSami/SudokoSolver_TOA",
       icon: "🧠",
       gradient: "from-purple-500 to-fuchsia-600",
+      hasGithub: true,
+      hasLive: false,
+    },
+    {
+      id: 8,
+      title: "SecureNet-App",
+      description: "A real-time Network Intrusion Detection System combining ML and Cybersecurity. Features AI-powered detection with 90+ accuracy, live packet capture, and interactive React dashboard for network attack classification.",
+      technologies: ["Python", "FastAPI", "React", "Electron", "scikit-learn", "PyShark", "Tailwind CSS"],
+      category: "AI & Cybersecurity",
+      github: "https://github.com/SidhartSami/SecureNet-App",
+      icon: "🛡️",
+      gradient: "from-red-500 to-orange-600",
       hasGithub: true,
       hasLive: false,
     }
@@ -415,11 +427,11 @@ const ProjectCard = ({
 }) => {
   const getCardSize = () => {
     if (screenSize === 'mobile') {
-      return 'w-full max-w-sm h-[480px]';
+      return 'w-full max-w-sm h-[580px]';
     } else if (screenSize === 'tablet') {
-      return isCenter ? 'w-[340px] h-[400px]' : 'w-[280px] h-[340px]';
+      return isCenter ? 'w-[340px] h-[520px]' : 'w-[280px] h-[450px]';
     } else {
-      return isCenter ? 'w-[380px] h-[420px]' : 'w-[320px] h-[360px]';
+      return isCenter ? 'w-[380px] h-[550px]' : 'w-[320px] h-[470px]';
     }
   };
 
@@ -519,10 +531,10 @@ const ProjectCard = ({
         <div className="flex-1 flex flex-col justify-between mt-4">
           <p className={`${theme === 'dark' ? 'text-zinc-400' : 'text-zinc-600'} leading-relaxed transition-all duration-300 group-hover:text-current ${textSizes.description} mb-4`}>
             {screenSize === 'mobile' ? 
-              project.description.substring(0, 150) + '...' : 
+              project.description.substring(0, 300) + (project.description.length > 300 ? '...' : '') : 
               isCenter ? 
-                project.description.substring(0, 120) + '...' : 
-                project.description.substring(0, 80) + '...'
+                project.description.substring(0, 350) + (project.description.length > 350 ? '...' : '') : 
+                project.description.substring(0, 200) + (project.description.length > 200 ? '...' : '')
             }
           </p>
           
