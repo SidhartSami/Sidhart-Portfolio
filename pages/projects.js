@@ -27,7 +27,7 @@ const Projects = ({ projectsRef }) => {
       github: "https://github.com/SidhartSami/Ecommerce-Website_IICT",
       live: "https://sidhartsami.github.io/Ecommerce-Website_IICT/",
       icon: "🛍️",
-      gradient: "from-pink-400 to-rose-500",
+      accentColor: "blue",
       hasGithub: true,
       hasLive: true,
     },
@@ -39,7 +39,7 @@ const Projects = ({ projectsRef }) => {
       category: "Intro to Game Dev",
       github: "https://github.com/SidhartSami/Centipede_PF",
       icon: "👾",
-      gradient: "from-green-500 to-teal-600",
+      accentColor: "blue",
        hasGithub: true,
       hasLive: false ,
     },
@@ -50,7 +50,7 @@ const Projects = ({ projectsRef }) => {
       technologies: ["C++", "OOP", "SFML"],
       category: "Game Development",
       icon: "🧟",
-      gradient: "from-lime-500 to-green-600",
+      accentColor: "blue",
       hasGithub: false,
       hasLive: false,
     },
@@ -62,7 +62,7 @@ const Projects = ({ projectsRef }) => {
       category: "Low-Level Systems",
       github: "https://github.com/SidhartSami/Library-Management-System",
       icon: "📚",
-      gradient: "from-gray-700 to-gray-900",
+      accentColor: "blue",
       hasGithub: true,
       hasLive: false,
     },
@@ -75,7 +75,7 @@ const Projects = ({ projectsRef }) => {
       github: "https://github.com/SidhartSami/FAST-NUCES-TimeTable",
       live: "https://nucestimetable.streamlit.app/",
       icon: "📅",
-      gradient: "from-blue-500 to-indigo-600",
+      accentColor: "blue",
       hasGithub: true,
       hasLive: true,
     },
@@ -86,7 +86,7 @@ const Projects = ({ projectsRef }) => {
       technologies: ["C", "File System", "Multithreading"],
       category: "System Programming",
       icon: "📝",
-      gradient: "from-slate-500 to-zinc-700",
+      accentColor: "blue",
       hasGithub: false,
       hasLive: false,
     },
@@ -98,7 +98,7 @@ const Projects = ({ projectsRef }) => {
       category: "Algorithm Visualization",
       github: "https://github.com/SidhartSami/SudokoSolver_TOA",
       icon: "🧠",
-      gradient: "from-purple-500 to-fuchsia-600",
+      accentColor: "blue",
       hasGithub: true,
       hasLive: false,
     },
@@ -110,7 +110,7 @@ const Projects = ({ projectsRef }) => {
       category: "AI & Cybersecurity",
       github: "https://github.com/SidhartSami/SecureNet-App",
       icon: "🛡️",
-      gradient: "from-red-500 to-orange-600",
+      accentColor: "blue",
       hasGithub: true,
       hasLive: false,
     }
@@ -222,11 +222,11 @@ const Projects = ({ projectsRef }) => {
       className={`min-h-screen ${theme === 'dark' ? 'bg-black' : 'bg-white'} py-6 sm:py-8 md:py-16 px-4 sm:px-6 lg:px-8 overflow-hidden relative transition-all duration-700 flex flex-col justify-center`} 
       data-section="projects"
     >
-      {/* Enhanced Background Elements */}
+      {/* Professional Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-32 h-32 sm:w-64 sm:h-64 bg-gradient-to-br from-blue-500/10 to-purple-500/10 rounded-full blur-3xl animate-float"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-24 h-24 sm:w-48 sm:h-48 bg-gradient-to-br from-emerald-500/10 to-teal-500/10 rounded-full blur-3xl animate-float-delay"></div>
-        <div className="absolute top-1/2 left-1/6 w-20 h-20 sm:w-40 sm:h-40 bg-gradient-to-br from-pink-500/10 to-rose-500/10 rounded-full blur-2xl animate-pulse"></div>
+        <div className="absolute top-1/4 left-1/4 w-32 h-32 sm:w-64 sm:h-64 bg-gradient-to-br from-blue-500/5 to-blue-600/5 rounded-full blur-3xl animate-float"></div>
+        <div className="absolute bottom-1/4 right-1/4 w-24 h-24 sm:w-48 sm:h-48 bg-gradient-to-br from-blue-400/5 to-blue-500/5 rounded-full blur-3xl animate-float-delay"></div>
+        <div className="absolute top-1/2 left-1/6 w-20 h-20 sm:w-40 sm:h-40 bg-gradient-to-br from-blue-600/5 to-blue-700/5 rounded-full blur-2xl animate-pulse"></div>
       </div>
       
       <div className="max-w-7xl mx-auto w-full relative z-10">
@@ -487,8 +487,8 @@ const ProjectCard = ({
           undefined
       }}
     >
-      {/* Animated Background Gradient */}
-      <div className={`absolute inset-0 bg-gradient-to-br ${project.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-500`}></div>
+      {/* Professional Background Gradient */}
+      <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-blue-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
       
       {/* Floating Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -508,7 +508,7 @@ const ProjectCard = ({
         <div className="space-y-4 flex-none">
           {/* Category Badge */}
           <div className="flex items-center justify-between">
-            <span className={`inline-flex items-center px-3 py-1.5 rounded-full text-xs font-bold bg-gradient-to-r ${project.gradient} text-white shadow-lg group-hover:shadow-xl transition-all duration-300`}>
+            <span className={`inline-flex items-center px-3 py-1.5 rounded-full text-xs font-bold ${theme === 'dark' ? 'bg-blue-900/50 text-blue-300 border border-blue-700/50' : 'bg-blue-50 text-blue-700 border border-blue-200'} shadow-sm group-hover:shadow-md group-hover:bg-blue-600 group-hover:text-white transition-all duration-300`}>
               {project.category}
             </span>
             <div className="flex space-x-1">
@@ -564,7 +564,7 @@ const ProjectCard = ({
                         e.stopPropagation();
                         window.open(project.live, '_blank');
                       }}
-                      className={`${!project.hasGithub ? 'flex-1 max-w-xs' : 'flex-1'} px-4 ${textSizes.button} bg-gradient-to-r ${project.gradient} text-white rounded-xl font-semibold shadow-lg hover:shadow-2xl hover:shadow-blue-500/30 transition-all duration-300 transform hover:scale-105 active:scale-95`}
+                      className={`${!project.hasGithub ? 'flex-1 max-w-xs' : 'flex-1'} px-4 ${textSizes.button} bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 active:scale-95`}
                     >
                       <span className="flex items-center justify-center gap-2">
                         <svg className="w-4 h-4 group-hover:rotate-12 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -580,8 +580,8 @@ const ProjectCard = ({
                         e.stopPropagation();
                         window.open(project.github, '_blank');
                       }}
-                      className={`${!project.hasLive ? 'flex-1 max-w-xs' : 'flex-1'} px-4 ${textSizes.button} rounded-xl font-semibold shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-105 active:scale-95
-                        ${theme === 'dark' ? 'bg-zinc-800 text-zinc-300 border-zinc-700 hover:bg-zinc-700' : 'bg-white text-zinc-700 border-zinc-300 hover:bg-zinc-50'} border-2`}
+                      className={`${!project.hasLive ? 'flex-1 max-w-xs' : 'flex-1'} px-4 ${textSizes.button} rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 active:scale-95
+                        ${theme === 'dark' ? 'bg-zinc-800 text-zinc-300 border-zinc-700 hover:bg-zinc-700 hover:border-blue-500' : 'bg-white text-zinc-700 border-zinc-300 hover:bg-zinc-50 hover:border-blue-500'} border-2`}
                     >
                       <span className="flex items-center justify-center gap-2">
                         <svg className="w-4 h-4 group-hover:rotate-12 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -603,9 +603,9 @@ const ProjectCard = ({
         <div className={`absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 transition-all duration-1000 ${hoveredCard === project.id ? 'translate-x-full' : '-translate-x-full'} pointer-events-none`}></div>
       )}
       
-      {/* Glow Effect */}
+      {/* Professional Glow Effect */}
       {isCenter && hoveredCard === project.id && (
-        <div className={`absolute inset-0 bg-gradient-to-r ${project.gradient} opacity-20 rounded-2xl blur-xl scale-110 -z-10`}></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-blue-600 opacity-20 rounded-2xl blur-xl scale-110 -z-10"></div>
       )}
     </div>
   );
