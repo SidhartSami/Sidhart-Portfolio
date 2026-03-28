@@ -193,8 +193,8 @@ const AnimatedGridHero = ({ scrollToProjects }) => {
           transition={{ duration: 0.8 }}
           className="max-w-4xl space-y-6"
         >
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tighter leading-none text-[var(--color-text)]">
-            Hi, I&apos;m <span className="text-[var(--color-primary)]">Sidhart Sami</span>
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tighter leading-none">
+            <span className="text-black">Sidhart</span> <span className="text-[var(--color-primary)]">Sami</span>
           </h1>
           
           <div className="text-xl md:text-2xl font-medium text-[var(--color-text-muted)] tracking-tight min-h-[1.5em]">
