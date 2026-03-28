@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useTheme } from 'next-themes';
 import emailjs from '@emailjs/browser';
 import { motion } from 'framer-motion';
-import { socialLinks } from '../data/portfolio';
+import { socialLinks } from '../../data/portfolio';
 
 const SectionHeading = ({ title }) => {
   return (
