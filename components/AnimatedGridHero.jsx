@@ -20,6 +20,8 @@ const AnimatedGridHero = ({ scrollToProjects }) => {
 
     const ctx = canvas.getContext('2d');
     let animationFrameId;
+    let mouseX = -1000;
+    let mouseY = -1000;
 
     // Grid configuration
     const cellSize = 16;
@@ -45,6 +47,7 @@ const AnimatedGridHero = ({ scrollToProjects }) => {
     ];
 
     const colors = isDark ? darkColors : lightColors;
+    const highlightColor = isDark ? '#1DB9A0' : '#E8440A'; // Teal for dark, Orange for light
 
     let cells = [];
     let cols, rows;
@@ -68,6 +71,8 @@ const AnimatedGridHero = ({ scrollToProjects }) => {
             currentColor: colors[Math.floor(Math.random() * colors.length)],
             lerpFactor: 0,
             speed: 0.005 + Math.random() * 0.01,
+            baseX: i * totalSize,
+            baseY: j * totalSize,
           });
         }
       }
@@ -95,9 +100,15 @@ const AnimatedGridHero = ({ scrollToProjects }) => {
     };
 
     const draw = () => {
+      if (!ctx || !canvas) return;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       cells.forEach(cell => {
+        const dx = mouseX - (cell.x + cellSize / 2);
+        const dy = mouseY - (cell.y + cellSize / 2);
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        const maxDist = 200; // Increased interaction radius
+
         cell.lerpFactor += cell.speed;
         if (cell.lerpFactor >= 1) {
           cell.currentColor = cell.targetColor;
@@ -106,53 +117,67 @@ const AnimatedGridHero = ({ scrollToProjects }) => {
           cell.speed = 0.005 + Math.random() * 0.01;
         }
 
-        const color = lerpColor(cell.currentColor, cell.targetColor, cell.lerpFactor);
+        let color = lerpColor(cell.currentColor, cell.targetColor, cell.lerpFactor);
+        
+        let displayX = cell.x;
+        let displayY = cell.y;
+
+        if (dist < maxDist) {
+          const proximity = 1 - dist / maxDist;
+          // Apply glow effect
+          color = lerpColor(color, highlightColor, proximity * 0.8);
+          
+          // Subtle movement away from mouse
+          const moveDist = proximity * 4;
+          displayX -= (dx / dist) * moveDist;
+          displayY -= (dy / dist) * moveDist;
+        }
+
         ctx.fillStyle = color;
         
-        // Draw rounded rect
+        // Draw rounded rect with shadow for glow
         const radius = 3;
         ctx.beginPath();
-        ctx.moveTo(cell.x + radius, cell.y);
-        ctx.lineTo(cell.x + cellSize - radius, cell.y);
-        ctx.quadraticCurveTo(cell.x + cellSize, cell.y, cell.x + cellSize, cell.y + radius);
-        ctx.lineTo(cell.x + cellSize, cell.y + cellSize - radius);
-        ctx.quadraticCurveTo(cell.x + cellSize, cell.y + cellSize, cell.x + cellSize - radius, cell.y + cellSize);
-        ctx.lineTo(cell.x + radius, cell.y + cellSize);
-        ctx.quadraticCurveTo(cell.x, cell.y + cellSize, cell.x, cell.y + cellSize - radius);
-        ctx.lineTo(cell.x, cell.y + radius);
-        ctx.quadraticCurveTo(cell.x, cell.y, cell.x + radius, cell.y);
-        ctx.closePath();
+        ctx.roundRect(displayX, displayY, cellSize, cellSize, radius);
         ctx.fill();
       });
 
       animationFrameId = requestAnimationFrame(draw);
     };
 
+    const handleMouseMove = (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    };
+
+    const handleMouseLeave = () => {
+      mouseX = -1000;
+      mouseY = -1000;
+    };
+
     initGrid();
     draw();
 
-    const handleResize = () => {
-      initGrid();
-    };
-
-    window.addEventListener('resize', handleResize);
+    window.addEventListener('resize', initGrid);
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mouseleave', handleMouseLeave);
 
     return () => {
       cancelAnimationFrame(animationFrameId);
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener('resize', initGrid);
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseleave', handleMouseLeave);
     };
   }, [mounted, resolvedTheme]);
 
   if (!mounted) return <div className="w-full h-screen bg-[var(--color-bg)]" />;
-
-  const isDark = resolvedTheme === 'dark';
 
   return (
     <div className="relative w-full h-screen overflow-hidden transition-colors duration-500" style={{ backgroundColor: 'var(--color-bg)', fontFamily: 'var(--font-display)' }}>
       {/* Animated Canvas Grid */}
       <canvas
         ref={canvasRef}
-        className="absolute inset-0 w-full h-full pointer-events-none opacity-40"
+        className="absolute inset-0 w-full h-full pointer-events-none opacity-60"
       />
 
       {/* Edge Vignette Fades */}

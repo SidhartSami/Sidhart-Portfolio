@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useTheme } from 'next-themes';
-import { ChevronDown, Github, Linkedin, Mail, FileText, Home as HomeIcon, User, Lightbulb, GraduationCap, Briefcase, Send } from 'lucide-react';
+import { ChevronDown, Github, Linkedin, Mail, FileText, Home as HomeIcon, User, Lightbulb, GraduationCap, Briefcase, Send, BookOpen } from 'lucide-react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { cn } from "@/lib/utils";
 import Contact from './contact';
@@ -11,6 +11,7 @@ import Projects from './projects';
 import Skills from './skills';
 import AboutSection from './about';
 import CertificationsSection from './certifications';
+import BlogsSection from './blogs';
 import { AnimatedThemeToggler } from '../components/ui/animated-theme-toggler';
 import { InteractiveHoverButton } from '../components/ui/interactive-hover-button';
 import { Dock, DockIcon } from '../components/ui/dock';
@@ -64,6 +65,7 @@ export default function Home() {
   const aboutRef = useRef(null);
   const certificationsRef = useRef(null);
   const projectsRef = useRef(null);
+  const blogsRef = useRef(null);
   const contactRef = useRef(null);
 
   useEffect(() => {
@@ -83,6 +85,7 @@ export default function Home() {
       { id: 'about', ref: aboutRef },
       { id: 'certifications', ref: certificationsRef },
       { id: 'projects', ref: projectsRef },
+      { id: 'blogs', ref: blogsRef },
       { id: 'contact', ref: contactRef },
     ];
 
@@ -169,6 +172,7 @@ export default function Home() {
     { id: 'about', label: 'About', ref: aboutRef, icon: User },
     { id: 'certifications', label: 'Certifications', ref: certificationsRef, icon: GraduationCap },
     { id: 'projects', label: 'Projects', ref: projectsRef, icon: Briefcase },
+    { id: 'blogs', label: 'Blogs', ref: blogsRef, icon: BookOpen },
     { id: 'contact', label: 'Contact', ref: contactRef, icon: Send },
   ];
 
@@ -188,8 +192,9 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Sidhart Sami | Data & Development</title>
-        <meta name="description" content="Portfolio of Sidhart Sami - Machine Learning, Web Development, and Game Systems" />
+        <title>Sidhart Sami | Computer Science Student & Software Engineer Intern</title>
+        <meta name="description" content="Portfolio of Sidhart Sami - CS Student at FAST NUCES. Specializing in Machine Learning, Web Development, and Mobile Apps. Looking for Software Engineering Internships." />
+        <meta name="keywords" content="Sidhart Sami, CS Student, Software Engineer Intern, Machine Learning, Next.js, Flutter, FAST NUCES, Data Science" />
         <link rel="icon" href="/favicon.ico" />
         <link rel="apple-touch-icon" href="/icon.png" />
       </Head>
@@ -200,7 +205,7 @@ export default function Home() {
           initial={{ x: -100, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           transition={{ duration: 1, ease: [0.19, 1, 0.22, 1] }}
-          className="fixed top-8 left-8 z-50 hidden md:flex items-center cursor-pointer group"
+          className="fixed top-8 left-8 z-50 hidden md:flex items-center gap-3 cursor-pointer group"
           onClick={() => scrollToSection(landingRef)}
         >
           <div className="relative w-12 h-12 rounded-2xl overflow-hidden border border-[var(--color-border)] group-hover:border-[var(--color-primary)]/50 transition-all duration-500 shadow-2xl">
@@ -211,6 +216,10 @@ export default function Home() {
               priority
               className="object-cover group-hover:scale-110 transition-transform duration-500"
             />
+          </div>
+          <div className="flex flex-col">
+            <span className="text-sm font-black uppercase tracking-[0.2em] text-[var(--color-text)]">Sidhart Sami</span>
+            <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[var(--color-primary)]">CS Student</span>
           </div>
         </motion.div>
 
@@ -266,18 +275,18 @@ export default function Home() {
         </nav>
 
         {/* Floating Socials & Theme Toggle */}
-        <aside className="fixed left-6 bottom-0 z-40 hidden xl:flex flex-col gap-6 after:content-[''] after:w-px after:h-24 after:bg-[var(--color-border)] after:mx-auto">
-          <AnimatedThemeToggler className="hover:scale-110 transition-transform mb-2 order-first" />
+        <aside className="fixed left-10 bottom-0 z-40 hidden xl:flex flex-col gap-8 after:content-[''] after:w-px after:h-32 after:bg-[var(--color-border)] after:mx-auto">
+          <AnimatedThemeToggler className="hover:scale-125 transition-transform mb-4 order-first bg-[var(--color-surface)] border border-[var(--color-border)] shadow-xl" />
           {contactLinks.map((contact, index) => (
             <a
               key={index}
               href={contact.link}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[var(--color-text-muted)] hover:text-[var(--color-secondary)] hover:-translate-y-1 transition-all duration-300"
+              className="p-2 rounded-xl text-[var(--color-text-muted)] hover:text-[var(--color-primary)] hover:-translate-y-2 hover:bg-[var(--color-surface)] hover:shadow-lg transition-all duration-300"
               aria-label={contact.platform}
             >
-              <contact.icon className="w-5 h-5" />
+              <contact.icon className="w-6 h-6" />
             </a>
           ))}
         </aside>
@@ -295,12 +304,13 @@ export default function Home() {
           <AboutSection aboutRef={aboutRef} />
           
           {/* Repositioned Skills Marquee */}
-          <div className="py-6 bg-[var(--color-bg)]">
+          <div className="py-4 bg-[var(--color-bg)]">
             <Skills />
           </div>
 
           <CertificationsSection certificationsRef={certificationsRef} />
           <Projects projectsRef={projectsRef} />
+          <BlogsSection blogsRef={blogsRef} />
           <Contact contactRef={contactRef} />
         </main>
       </div>

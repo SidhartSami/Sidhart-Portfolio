@@ -7,7 +7,7 @@ export default function AboutSection({ aboutRef }) {
       title: "Expert",
       icon: <CheckCircle2 className="w-5 h-5" />,
       iconColor: 'var(--color-primary)',
-      skills: ["C/C++", "HTML", "CSS", "MySQL", "JavaScript", "Pandas", "NumPy", "Scikit-learn", "Matplotlib", "Seaborn", "Tableau", "MATLAB", "OOP", "Git/GitHub"]
+      skills: ["Flutter", "Kotlin", "C/C++", "HTML", "CSS", "MySQL", "JavaScript", "Pandas", "NumPy", "Scikit-learn", "Matplotlib", "Seaborn", "Tableau", "MATLAB", "OOP", "Git/GitHub"]
     },
     {
       title: "Moderate",
@@ -74,18 +74,6 @@ export default function AboutSection({ aboutRef }) {
                     </div>
                   </div>
                 </div>
-              </div>
-
-              {/* Integrated Skill Tags from Hero */}
-              <div className="flex flex-wrap gap-3 pt-12">
-                {['Next.js', 'Flutter', 'Kotlin', 'Python', 'ML'].map((skill) => (
-                  <span 
-                    key={skill}
-                    className="px-5 py-2 rounded-full bg-[var(--color-surface)] text-[var(--color-text-muted)] text-sm font-bold border border-[var(--color-border)] hover:border-[var(--color-primary)]/30 hover:text-[var(--color-text)] transition-all duration-300"
-                  >
-                    {skill}
-                  </span>
-                ))}
               </div>
             </motion.div>
           </div>

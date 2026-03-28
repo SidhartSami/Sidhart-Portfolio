@@ -6,19 +6,20 @@ const skills = [
   { name: "JavaScript", icon: "javascript/javascript-original.svg" },
   { name: "React", icon: "react/react-original.svg" },
   { name: "Next.js", icon: "nextjs/nextjs-original.svg" },
+  { name: "Flutter", icon: "flutter-original.jpg", local: true },
+  { name: "Kotlin", icon: "Kotlin-original.png", local: true },
   { name: "Tailwind", icon: "tailwindcss/tailwindcss-original.svg" },
   { name: "TensorFlow", icon: "tensorflow/tensorflow-original.svg" },
   { name: "Pandas", icon: "pandas/pandas-original.svg" },
   { name: "NumPy", icon: "numpy/numpy-original.svg" },
   { name: "MySQL", icon: "mysql/mysql-original.svg" },
   { name: "Git", icon: "git/git-original.svg" },
-  { name: "Docker", icon: "docker/docker-original.svg" },
 ];
 
 const SkillItem = ({ skill }) => (
   <div className="marquee-item group">
     <img 
-      src={`https://cdn.jsdelivr.net/gh/devicons/devicon/icons/${skill.icon}`} 
+      src={skill.local ? `/${skill.icon}` : `https://cdn.jsdelivr.net/gh/devicons/devicon/icons/${skill.icon}`} 
       alt={skill.name}
       className="marquee-icon transition-all"
     />
