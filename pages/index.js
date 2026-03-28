@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useTheme } from 'next-themes';
-import { ChevronDown, Github, Linkedin, Mail, FileText, Home as HomeIcon, User, Lightbulb, GraduationCap, Briefcase, Send, BookOpen } from 'lucide-react';
+import { ChevronDown, Github, Linkedin, Mail, FileText, Home as HomeIcon, User, Lightbulb, GraduationCap, Briefcase, Send } from 'lucide-react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { cn } from "@/lib/utils";
 import Contact from './contact';
@@ -11,12 +11,11 @@ import Projects from './projects';
 import Skills from './skills';
 import AboutSection from './about';
 import CertificationsSection from './certifications';
-import BlogsSection from './blogs';
 import { AnimatedThemeToggler } from '../components/ui/animated-theme-toggler';
 import { InteractiveHoverButton } from '../components/ui/interactive-hover-button';
-import { Dock, DockIcon } from '../components/ui/dock';
 import { Loader } from '../components/ui/loader';
 import AnimatedGridHero from '../components/AnimatedGridHero';
+import { SmoothCursor } from '../components/ui/smooth-cursor';
 
 const Typewriter = ({ texts }) => {
   const [currentTextIndex, setCurrentTextIndex] = useState(0);
@@ -65,7 +64,6 @@ export default function Home() {
   const aboutRef = useRef(null);
   const certificationsRef = useRef(null);
   const projectsRef = useRef(null);
-  const blogsRef = useRef(null);
   const contactRef = useRef(null);
 
   useEffect(() => {
@@ -85,7 +83,6 @@ export default function Home() {
       { id: 'about', ref: aboutRef },
       { id: 'certifications', ref: certificationsRef },
       { id: 'projects', ref: projectsRef },
-      { id: 'blogs', ref: blogsRef },
       { id: 'contact', ref: contactRef },
     ];
 
@@ -172,7 +169,6 @@ export default function Home() {
     { id: 'about', label: 'About', ref: aboutRef, icon: User },
     { id: 'certifications', label: 'Certifications', ref: certificationsRef, icon: GraduationCap },
     { id: 'projects', label: 'Projects', ref: projectsRef, icon: Briefcase },
-    { id: 'blogs', label: 'Blogs', ref: blogsRef, icon: BookOpen },
     { id: 'contact', label: 'Contact', ref: contactRef, icon: Send },
   ];
 
@@ -192,12 +188,14 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Sidhart Sami | Computer Science Student & Software Engineer Intern</title>
-        <meta name="description" content="Portfolio of Sidhart Sami - CS Student at FAST NUCES. Specializing in Machine Learning, Web Development, and Mobile Apps. Looking for Software Engineering Internships." />
+        <title>Sidhart Sami | Software Developer</title>
+        <meta name="description" content="Portfolio of Sidhart Sami - CS Student at FAST NUCES. Specializing in Machine Learning, Web Development, and Mobile Apps. Open to Job & Internships." />
         <meta name="keywords" content="Sidhart Sami, CS Student, Software Engineer Intern, Machine Learning, Next.js, Flutter, FAST NUCES, Data Science" />
         <link rel="icon" href="/favicon.ico" />
         <link rel="apple-touch-icon" href="/icon.png" />
       </Head>
+
+      <SmoothCursor />
 
       <div className="min-h-screen transition-colors duration-300 flex flex-col" style={{ backgroundColor: 'var(--color-bg)', color: 'var(--color-text)' }}>
         {/* Top Left Logo/Icon */}
@@ -216,10 +214,6 @@ export default function Home() {
               priority
               className="object-cover group-hover:scale-110 transition-transform duration-500"
             />
-          </div>
-          <div className="flex flex-col">
-            <span className="text-sm font-black uppercase tracking-[0.2em] text-[var(--color-text)]">Sidhart Sami</span>
-            <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[var(--color-primary)]">CS Student</span>
           </div>
         </motion.div>
 
@@ -310,7 +304,6 @@ export default function Home() {
 
           <CertificationsSection certificationsRef={certificationsRef} />
           <Projects projectsRef={projectsRef} />
-          <BlogsSection blogsRef={blogsRef} />
           <Contact contactRef={contactRef} />
         </main>
       </div>
