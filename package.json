@@ -22,9 +22,9 @@
   },
   "scripts": {
     "dev": "next dev",
-    "build": "pnpm registry:build && next build",
+    "build": "npm run registry:build && next build",
     "start": "next start",
-    "preview": "pnpm registry:build && next build && next start",
+    "preview": "npm run registry:build && next build && next start",
     "test": "vitest",
     "test:run": "vitest run",
     "lint": "eslint . --cache --cache-location .eslintcache",
