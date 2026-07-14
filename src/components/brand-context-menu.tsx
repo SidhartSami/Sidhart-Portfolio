@@ -47,25 +47,7 @@ export function BrandContextMenu({ children }: { children: React.ReactNode }) {
           Copy Logotype as SVG
         </ContextMenuItem>
 
-        <ContextMenuSeparator />
 
-        <ContextMenuItem
-          render={
-            <Link href="/blog/chanhdai-brand">
-              <SquareDashed />
-              Brand Guidelines
-            </Link>
-          }
-        />
-
-        <ContextMenuItem
-          render={
-            <a href="https://assets.chanhdai.com/chanhdai-brand.zip" download>
-              <Download />
-              Download Brand Assets
-            </a>
-          }
-        />
       </ContextMenuContent>
     </ContextMenu>
   )

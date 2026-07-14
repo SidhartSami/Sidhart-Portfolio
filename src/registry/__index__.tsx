@@ -1725,23 +1725,6 @@ export const Index: Record<string, any> = {
     categories: undefined,
     meta: undefined,
   },
-  "logos-carousel-demo": {
-    name: "logos-carousel-demo",
-    description: "",
-    type: "registry:example",
-    files: [{
-      path: "src/registry/examples/logos-carousel-demo.tsx",
-      type: "registry:example",
-      target: "",
-    }],
-    component: React.lazy(async () => {
-      const mod = await import("@/registry/examples/logos-carousel-demo.tsx")
-      const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || item.name
-      return { default: mod.default || mod[exportName] }
-    }),
-    categories: undefined,
-    meta: {"previewClassName":"min-h-svh place-items-center-safe content-center-safe"},
-  },
   "testimonial-2-demo": {
     name: "testimonial-2-demo",
     description: "",

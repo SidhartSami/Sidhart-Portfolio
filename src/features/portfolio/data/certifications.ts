@@ -44,5 +44,7 @@ export const CERTIFICATIONS: Certification[] = [
     issuer: "LinkedIn Learning",
     issuerIconName: "microsoft",
     issueDate: "2024-08-01",
+    credentialID: "",
+    credentialURL: "",
   },
 ]
